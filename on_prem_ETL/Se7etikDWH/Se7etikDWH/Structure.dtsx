@@ -1,0 +1,638 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="5/19/2026 9:50:01 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="DESKTOP-K4BMBC9"
+  DTS:CreatorName="DESKTOP-K4BMBC9\Diab Saeed"
+  DTS:DTSID="{FBDA653B-B098-4FCF-9BB9-1EB17844EF28}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="17.0.1010.2"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Package1"
+  DTS:PackageType="5"
+  DTS:VersionBuild="30"
+  DTS:VersionGUID="{BDC9F9D3-A078-460D-9BDB-C0945D06F60A}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[LocalHost]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{64F34098-53F2-4983-9300-F16C7E64CA2E}"
+      DTS:ObjectName="LocalHost">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=.;Provider=SQLNCLI11.1;Integrated Security=SSPI;Application Name=SSIS-Package1-{64F34098-53F2-4983-9300-F16C7E64CA2E}LocalHost;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[LocalHost.Se7tek]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{323064E0-2435-4117-8012-B5A9E3C314B4}"
+      DTS:ObjectName="LocalHost.Se7tek">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=.;Initial Catalog=Se7tek;Provider=SQLNCLI11.1;Integrated Security=SSPI;Application Name=SSIS-Package1-{323064E0-2435-4117-8012-B5A9E3C314B4}LocalHost.Se7tek;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[LocalHost.Se7tekDWH]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{BDCD6C4A-45FD-467E-951C-CAB24C66148C}"
+      DTS:ObjectName="LocalHost.Se7tekDWH">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=.;Initial Catalog=Se7tekDWH;Provider=SQLNCLI11.1;Integrated Security=SSPI;Application Name=SSIS-Package1-{BDCD6C4A-45FD-467E-951C-CAB24C66148C}LocalHost.Se7tekDWH;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{DE038E6B-63A6-4910-BC81-917C0ADA4E29}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;IF NOT EXISTS (&#xA;    SELECT 1 FROM sys.columns &#xA;    WHERE object_id = OBJECT_ID('[Bronze].[&quot; + @[User::TableName] + &quot;]') &#xA;    AND name = 'Bronze_LoadID'&#xA;)&#xA;BEGIN&#xA;    ALTER TABLE [Bronze].[&quot; + @[User::TableName] + &quot;] ADD &#xA;        Bronze_LoadID BIGINT, &#xA;        Bronze_LoadDate DATETIME2 DEFAULT GETDATE(),&#xA;        Bronze_SourceVersion BIGINT,         &#xA;        Bronze_Operation CHAR(1),           &#xA;        Bronze_ETL_BatchID UNIQUEIDENTIFIER&#xA;END&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="AddingMetaData">
+      <DTS:VariableValue
+        DTS:DataType="8">IF NOT EXISTS (
+    SELECT 1 FROM sys.columns 
+    WHERE object_id = OBJECT_ID('[Bronze].[]') 
+    AND name = 'Bronze_LoadID'
+)
+BEGIN
+    ALTER TABLE [Bronze].[] ADD 
+        Bronze_LoadID BIGINT, 
+        Bronze_LoadDate DATETIME2 DEFAULT GETDATE(),
+        Bronze_SourceVersion BIGINT,         
+        Bronze_Operation CHAR(1),           
+        Bronze_ETL_BatchID UNIQUEIDENTIFIER
+END</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{ED99DF4D-197D-4EDA-80D2-21076C653A01}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;&#xA;IF OBJECT_ID('Se7tekDWH.BRONZE.&quot; + @[User::TableName] + &quot;', 'U') IS NULL &#xA;BEGIN&#xA;SELECT * INTO Se7tekDWH.BRONZE.&quot; + @[User::TableName] + &quot; FROM Se7tek.dbo.&quot; + @[User::TableName] + &quot; WHERE 1 = -1 END&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="BronzeCreation">
+      <DTS:VariableValue
+        DTS:DataType="8">
+IF OBJECT_ID('Se7tekDWH.BRONZE.', 'U') IS NULL 
+BEGIN
+SELECT * INTO Se7tekDWH.BRONZE. FROM Se7tek.dbo. WHERE 1 = -1 END</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{2E694BBB-6B2C-46AB-9846-F2B4024A6062}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Pk">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{5D0FBE4F-FD21-4BA4-92FA-3F56FF58B84B}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;&#xA;IF OBJECT_ID('Se7tekDWH.Silver.&quot; + @[User::TableName] + &quot;', 'U') IS NULL &#xA;BEGIN&#xA;SELECT * INTO Se7tekDWH.Silver.&quot; + @[User::TableName] + &quot; FROM Se7tek.dbo.&quot; + @[User::TableName] + &quot; WHERE 1 = -1 END&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="SilverCreation">
+      <DTS:VariableValue
+        DTS:DataType="8">
+IF OBJECT_ID('Se7tekDWH.Silver.', 'U') IS NULL 
+BEGIN
+SELECT * INTO Se7tekDWH.Silver. FROM Se7tek.dbo. WHERE 1 = -1 END</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{0B51E687-052A-4DCA-A571-80080F33E1A1}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="TableName">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{36585B32-D187-4CA5-AC52-F4BE2193D080}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="TableNames">
+      <DTS:VariableValue
+        DTS:DataSubType="ManagedSerializable"
+        DTS:DataType="13">
+        <SOAP-ENV:Envelope xmlns:clr="http://schemas.microsoft.com/soap/encoding/clr/1.0" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+          <SOAP-ENV:Body>
+            <xsd:anyType
+              id="ref-1"></xsd:anyType>
+          </SOAP-ENV:Body>
+        </SOAP-ENV:Envelope>
+      </DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Foreach Loop Container"
+      DTS:CreationName="STOCK:FOREACHLOOP"
+      DTS:Description="Foreach Loop Container"
+      DTS:DTSID="{BBDC8C80-1158-4F20-B389-3B332867088B}"
+      DTS:ExecutableType="STOCK:FOREACHLOOP"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Foreach Loop Container">
+      <DTS:ForEachEnumerator
+        DTS:CreationName="Microsoft.ForEachADOEnumerator"
+        DTS:DTSID="{46082FA1-A743-4BC5-A75D-2C6439FCBBCE}"
+        DTS:ObjectName="{46082FA1-A743-4BC5-A75D-2C6439FCBBCE}">
+        <DTS:ObjectData>
+          <FEEADO
+            EnumType="EnumerateRowsInFirstTable"
+            VarName="User::TableNames" />
+        </DTS:ObjectData>
+      </DTS:ForEachEnumerator>
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Foreach Loop Container\Adding Bronze Metadata Columns"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{5115E46E-F721-4150-9C4F-2DD7B22F2F5B}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Adding Bronze Metadata Columns"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2025; © 2025 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{BDCD6C4A-45FD-467E-951C-CAB24C66148C}"
+              SQLTask:SqlStmtSourceType="Variable"
+              SQLTask:SqlStatementSource="User::AddingMetaData" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Foreach Loop Container\Adding Silver MetaData"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{26ad5e33-09aa-44b9-ac08-7b2d0b72845e}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Adding Silver MetaData"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2025; © 2025 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{BDCD6C4A-45FD-467E-951C-CAB24C66148C}"
+              SQLTask:SqlStmtSourceType="Variable"
+              SQLTask:SqlStatementSource="User::AddingMetaData" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Foreach Loop Container\Creating Intial Bronze Structure"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{e407bbf5-1075-4b19-a9fc-9a83df76c178}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Creating Intial Bronze Structure"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2025; © 2025 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{BDCD6C4A-45FD-467E-951C-CAB24C66148C}"
+              SQLTask:SqlStmtSourceType="Variable"
+              SQLTask:SqlStatementSource="User::BronzeCreation" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Foreach Loop Container\Creating intial Silver Structure"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{a18add0f-e35e-4dee-9456-b87ef15e6f73}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Creating intial Silver Structure"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2025; © 2025 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{BDCD6C4A-45FD-467E-951C-CAB24C66148C}"
+              SQLTask:SqlStmtSourceType="Variable"
+              SQLTask:SqlStatementSource="User::SilverCreation" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Foreach Loop Container\Execute SQL Task"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{88C43A4D-E265-4B47-8162-63A56AF06038}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Execute SQL Task"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2025; © 2025 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{323064E0-2435-4117-8012-B5A9E3C314B4}"
+              SQLTask:SqlStatementSource="INSERT INTO Se7tekDWH.MetaData.TableControl (TableName,SchemaName,PK_Columns,IsActive,LastLoadDate)&#xA;VALUES &#xA;(?,'dbo',?,1,'01-01-2000')" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="0"
+                SQLTask:DtsVariableName="User::TableName"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="130"
+                SQLTask:ParameterSize="-1" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="1"
+                SQLTask:DtsVariableName="User::Pk"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="130"
+                SQLTask:ParameterSize="-1" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Foreach Loop Container\Getting PK"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{6455E2DE-D56C-459D-87CE-3BA4749604FB}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Getting PK"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2025; © 2025 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{323064E0-2435-4117-8012-B5A9E3C314B4}"
+              SQLTask:SqlStatementSource="EXEC sp_get_primary_key&#xA;@table_name = ?"
+              SQLTask:ResultType="ResultSetType_SingleRow" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ResultBinding
+                SQLTask:ResultName="0"
+                SQLTask:DtsVariableName="User::Pk" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="0"
+                SQLTask:DtsVariableName="User::TableName"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="129"
+                SQLTask:ParameterSize="-1" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Foreach Loop Container.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{BC55D295-AAC5-4CB5-B764-DB01D38213A1}"
+          DTS:From="Package\Foreach Loop Container\Getting PK"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\Foreach Loop Container\Execute SQL Task" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Foreach Loop Container.PrecedenceConstraints[Constraint 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{4D93F4C3-4B57-4C22-87EC-373378F8DDE1}"
+          DTS:From="Package\Foreach Loop Container\Execute SQL Task"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 1"
+          DTS:To="Package\Foreach Loop Container\Creating Intial Bronze Structure" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Foreach Loop Container.PrecedenceConstraints[Constraint 2]"
+          DTS:CreationName=""
+          DTS:DTSID="{86937CC4-5E01-4585-A8FE-1ED0E3DE16CE}"
+          DTS:From="Package\Foreach Loop Container\Creating Intial Bronze Structure"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 2"
+          DTS:To="Package\Foreach Loop Container\Adding Bronze Metadata Columns" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Foreach Loop Container.PrecedenceConstraints[Constraint 3]"
+          DTS:CreationName=""
+          DTS:DTSID="{B880C48D-655A-4720-8339-294408312068}"
+          DTS:From="Package\Foreach Loop Container\Adding Bronze Metadata Columns"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 3"
+          DTS:To="Package\Foreach Loop Container\Creating intial Silver Structure" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Foreach Loop Container.PrecedenceConstraints[Constraint 4]"
+          DTS:CreationName=""
+          DTS:DTSID="{CB7B5C1C-7064-4BE1-AD4D-E82CACD1DD35}"
+          DTS:From="Package\Foreach Loop Container\Creating intial Silver Structure"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 4"
+          DTS:To="Package\Foreach Loop Container\Adding Silver MetaData" />
+      </DTS:PrecedenceConstraints>
+      <DTS:ForEachVariableMappings>
+        <DTS:ForEachVariableMapping
+          DTS:CreationName=""
+          DTS:DTSID="{99DE59D6-7084-472C-9D4A-2545B662B13D}"
+          DTS:ObjectName="{99DE59D6-7084-472C-9D4A-2545B662B13D}"
+          DTS:ValueIndex="0"
+          DTS:VariableName="User::TableName" />
+      </DTS:ForEachVariableMappings>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Getting Table Names"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{FAB30EFB-9860-4AF0-86A9-9611F66914E1}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Getting Table Names"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2025; © 2025 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{323064E0-2435-4117-8012-B5A9E3C314B4}"
+          SQLTask:SqlStatementSource="SELECT DISTINCT name&#xA;FROM     sys.tables&#xA;WHERE  (name NOT IN('MSchange_tracking_history','sysdiagrams','PipelineAuditLog','LastModified','TableControl','tables_pk'))"
+          SQLTask:ResultType="ResultSetType_Rowset" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="0"
+            SQLTask:DtsVariableName="User::TableNames" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{AE631BA9-A96B-4101-93FB-1D66CF31FF77}"
+      DTS:From="Package\Getting Table Names"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Foreach Loop Container" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="236.8,41.6"
+          Id="Package\Foreach Loop Container\Adding Bronze Metadata Columns"
+          TopLeft="73.3714292282962,227.541176370714" />
+        <NodeLayout
+          Size="188,41.6"
+          Id="Package\Foreach Loop Container\Adding Silver MetaData"
+          TopLeft="74.0857149441023,364.517647144621" />
+        <NodeLayout
+          Size="211.2,41.6"
+          Id="Package\Foreach Loop Container\Creating Intial Bronze Structure"
+          TopLeft="35.0857149121712,153.47058811129" />
+        <NodeLayout
+          Size="219.2,41.6"
+          Id="Package\Foreach Loop Container\Creating intial Silver Structure"
+          TopLeft="68.3714292176523,293.341176222579" />
+        <NodeLayout
+          Size="128,41.6"
+          Id="Package\Foreach Loop Container\Getting PK"
+          TopLeft="38.6571434912025,11.3411763821094" />
+        <EdgeLayout
+          Id="Package\Foreach Loop Container.PrecedenceConstraints[Constraint 2]"
+          TopLeft="140.685714912171,195.07058811129">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="51.0857143161249,32.4705882594246"
+              Start="0,0"
+              End="51.0857143161249,24.9705882594246">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,12.2352941297123" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,12.2352941297123"
+                    Point2="0,16.2352941297123"
+                    Point3="4,16.2352941297123" />
+                  <mssgle:LineSegment
+                    End="47.0857143161249,16.2352941297123" />
+                  <mssgle:CubicBezierSegment
+                    Point1="47.0857143161249,16.2352941297123"
+                    Point2="51.0857143161249,16.2352941297123"
+                    Point3="51.0857143161249,20.2352941297123" />
+                  <mssgle:LineSegment
+                    End="51.0857143161249,24.9705882594246" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Foreach Loop Container.PrecedenceConstraints[Constraint 3]"
+          TopLeft="191.771429228296,269.141176370714">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-13.8000000106438,24.199999851865"
+              Start="0,0"
+              End="-13.8000000106438,16.699999851865">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,8.09999992593248" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,8.09999992593248"
+                    Point2="0,12.0999999259325"
+                    Point3="-4,12.0999999259325" />
+                  <mssgle:LineSegment
+                    End="-9.80000001064383,12.0999999259325" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-9.80000001064383,12.0999999259325"
+                    Point2="-13.8000000106438,12.0999999259325"
+                    Point3="-13.8000000106438,16.0999999259325" />
+                  <mssgle:LineSegment
+                    End="-13.8000000106438,16.699999851865" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Foreach Loop Container.PrecedenceConstraints[Constraint 4]"
+          TopLeft="177.971429217652,334.941176222579">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-9.88571427354998,29.576470922042"
+              Start="0,0"
+              End="-9.88571427354998,22.076470922042">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,10.788235461021" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,10.788235461021"
+                    Point2="0,14.788235461021"
+                    Point3="-4,14.788235461021" />
+                  <mssgle:LineSegment
+                    End="-5.88571427354998,14.788235461021" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-5.88571427354998,14.788235461021"
+                    Point2="-9.88571427354998,14.788235461021"
+                    Point3="-9.88571427354998,18.788235461021" />
+                  <mssgle:LineSegment
+                    End="-9.88571427354998,22.076470922042" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="162.4,41.6"
+          Id="Package\Foreach Loop Container\Execute SQL Task"
+          TopLeft="111.485715103758,83.9882351419608" />
+        <EdgeLayout
+          Id="Package\Foreach Loop Container.PrecedenceConstraints[Constraint 1]"
+          TopLeft="192.685715103758,125.588235141961">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-52.0000001915865,27.8823529693288"
+              Start="0,0"
+              End="-52.0000001915865,20.3823529693288">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,9.94117648466442" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,9.94117648466442"
+                    Point2="0,13.9411764846644"
+                    Point3="-4,13.9411764846644" />
+                  <mssgle:LineSegment
+                    End="-48.0000001915865,13.9411764846644" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-48.0000001915865,13.9411764846644"
+                    Point2="-52.0000001915865,13.9411764846644"
+                    Point3="-52.0000001915865,17.9411764846644" />
+                  <mssgle:LineSegment
+                    End="-52.0000001915865,20.3823529693288" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Foreach Loop Container.PrecedenceConstraints[Constraint]"
+          TopLeft="102.657143491203,52.9411763821094">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="90.0285716125552,31.0470587598514"
+              Start="0,0"
+              End="90.0285716125552,23.5470587598514">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,11.5235293799257" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,11.5235293799257"
+                    Point2="0,15.5235293799257"
+                    Point3="4,15.5235293799257" />
+                  <mssgle:LineSegment
+                    End="86.0285716125552,15.5235293799257" />
+                  <mssgle:CubicBezierSegment
+                    Point1="86.0285716125552,15.5235293799257"
+                    Point2="90.0285716125552,15.5235293799257"
+                    Point3="90.0285716125552,19.5235293799257" />
+                  <mssgle:LineSegment
+                    End="90.0285716125552,23.5470587598514" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="344,460.8"
+          Size="344,504"
+          Id="Package\Foreach Loop Container"
+          TopLeft="235.000000500253,4.58823529009578" />
+        <NodeLayout
+          Size="162.4,41.6"
+          Id="Package\Getting Table Names"
+          TopLeft="18.5714286109622,31.3529411489888" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="180.971428610962,52.1529411489888">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="54.0285718892908,204.435294141107"
+              Start="0,0"
+              End="46.5285718892908,204.435294141107">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="23.0142859446454,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="23.0142859446454,0"
+                    Point2="27.0142859446454,0"
+                    Point3="27.0142859446454,4" />
+                  <mssgle:LineSegment
+                    End="27.0142859446454,200.435294141107" />
+                  <mssgle:CubicBezierSegment
+                    Point1="27.0142859446454,200.435294141107"
+                    Point2="27.0142859446454,204.435294141107"
+                    Point3="31.0142859446454,204.435294141107" />
+                  <mssgle:LineSegment
+                    End="46.5285718892908,204.435294141107" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

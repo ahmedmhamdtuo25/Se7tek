@@ -1,0 +1,987 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="5/21/2026 12:30:31 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="DESKTOP-K4BMBC9"
+  DTS:CreatorName="DESKTOP-K4BMBC9\Diab Saeed"
+  DTS:DTSID="{963B0FF9-A163-46AE-8169-64D278C4F7ED}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="17.0.1010.2"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Silver_preg"
+  DTS:PackageType="5"
+  DTS:VersionBuild="6"
+  DTS:VersionGUID="{1C3854A9-F3ED-4162-976A-12CF107BE450}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[LocalHost.Se7tekDWH]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{A81F8718-FEE8-419C-A40D-C866216A000C}"
+      DTS:ObjectName="LocalHost.Se7tekDWH">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=.;Initial Catalog=Se7tekDWH;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;Application Name=SSIS-Silver-{A81F8718-FEE8-419C-A40D-C866216A000C}LocalHost.Se7tekDWH;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Loading Other Tables"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{2b10a78e-9f97-42cd-b01b-39c5a66a6cd5}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Loading Other Tables"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2025; © 2025 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{A81F8718-FEE8-419C-A40D-C866216A000C}"
+          SQLTask:SqlStatementSource="EXEC sp_incremental_silver @TableName=?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="0"
+            SQLTask:DtsVariableName="User::TableName"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="130"
+            SQLTask:ParameterSize="-1" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Loading Other Tables 1"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{747526c9-a4d2-4908-ae82-9a62b3a3868d}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Loading Other Tables 1"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2025; © 2025 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="2">
+      <DTS:Variables />
+      <DTS:PropertyExpression
+        DTS:Name="Disable">@[User::TableName] == "Patient_profile" || @[User::TableName] == "Pregnancy_hist"</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{A81F8718-FEE8-419C-A40D-C866216A000C}"
+          SQLTask:SqlStatementSource="EXEC sp_incremental_silver @TableName=?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="0"
+            SQLTask:DtsVariableName="User::TableName"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="130"
+            SQLTask:ParameterSize="-1" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Loading Other Tables 2"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{d7254415-7a2d-4f6d-861c-c43fb1d84adc}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Loading Other Tables 2"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2025; © 2025 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:PropertyExpression
+        DTS:Name="Disable">@[User::TableName] == "Patient_profile" || @[User::TableName] == "Pregnancy_hist"</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{A81F8718-FEE8-419C-A40D-C866216A000C}"
+          SQLTask:SqlStatementSource="EXEC sp_incremental_silver @TableName=?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="0"
+            SQLTask:DtsVariableName="User::TableName"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="130"
+            SQLTask:ParameterSize="-1" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Pregnancy_hist Transformation"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{27ec007e-70c0-4467-944c-7548c95d0cae}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Pregnancy_hist Transformation"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Pregnancy_hist Transformation\Adding Columns"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Adding Columns"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Pregnancy_hist Transformation\Adding Columns.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Pregnancy_hist Transformation\Adding Columns.Inputs[Derived Column Input].Columns[current_week]"
+                      cachedDataType="i4"
+                      cachedName="current_week"
+                      lineageId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].Columns[current_week]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Pregnancy_hist Transformation\Adding Columns.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\Pregnancy_hist Transformation\Adding Columns.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\Adding Columns.Outputs[Derived Column Output].Columns[Trimester]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="2"
+                      lineageId="Package\Pregnancy_hist Transformation\Adding Columns.Outputs[Derived Column Output].Columns[Trimester]"
+                      name="Trimester"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_I4)#{Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].Columns[current_week]} &lt;= 13 ? "T1" : (DT_I4)#{Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].Columns[current_week]} &lt;= 27 ? "T2" : "T3"</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_I4)current_week &lt;= 13 ? "T1" : (DT_I4)current_week &lt;= 27 ? "T2" : "T3"</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Pregnancy_hist Transformation\Adding Columns.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\Pregnancy_hist Transformation\Adding Columns.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\Adding Columns.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Pregnancy_hist Transformation\Adding Columns.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\Adding Columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Pregnancy_hist Transformation\Adding Columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Pregnancy_hist Transformation\Connectin Source"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="Connectin Source"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[Bronze].[Pregnancy_hist]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Pregnancy_hist Transformation\Connectin Source.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[LocalHost.Se7tekDWH]"
+                  connectionManagerRefId="Package.ConnectionManagers[LocalHost.Se7tekDWH]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].Columns[pregnancy_id]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].ExternalColumns[pregnancy_id]"
+                      lineageId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].Columns[pregnancy_id]"
+                      name="pregnancy_id"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].Columns[patient_id]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].ExternalColumns[patient_id]"
+                      lineageId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].Columns[patient_id]"
+                      name="patient_id"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].Columns[start_date]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].ExternalColumns[start_date]"
+                      lineageId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].Columns[start_date]"
+                      name="start_date"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].Columns[expected_due_date]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].ExternalColumns[expected_due_date]"
+                      lineageId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].Columns[expected_due_date]"
+                      name="expected_due_date"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].Columns[actual_delivery_date]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].ExternalColumns[actual_delivery_date]"
+                      lineageId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].Columns[actual_delivery_date]"
+                      name="actual_delivery_date"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].Columns[current_week]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].ExternalColumns[current_week]"
+                      lineageId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].Columns[current_week]"
+                      name="current_week"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].Columns[pregnancy_status]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].ExternalColumns[pregnancy_status]"
+                      length="30"
+                      lineageId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].Columns[pregnancy_status]"
+                      name="pregnancy_status"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].Columns[notes]"
+                      dataType="nText"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].ExternalColumns[notes]"
+                      lineageId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].Columns[notes]"
+                      name="notes"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].Columns[created_at]"
+                      dataType="dbTimeStamp2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].ExternalColumns[created_at]"
+                      lineageId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].Columns[created_at]"
+                      name="created_at"
+                      scale="7"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].Columns[is_high_risk]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].ExternalColumns[is_high_risk]"
+                      lineageId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].Columns[is_high_risk]"
+                      name="is_high_risk"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].Columns[risk_factors]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].ExternalColumns[risk_factors]"
+                      length="200"
+                      lineageId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].Columns[risk_factors]"
+                      name="risk_factors"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].Columns[Bronze_LoadID]"
+                      dataType="i8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].ExternalColumns[Bronze_LoadID]"
+                      lineageId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].Columns[Bronze_LoadID]"
+                      name="Bronze_LoadID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].Columns[Bronze_LoadDate]"
+                      dataType="dbTimeStamp2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].ExternalColumns[Bronze_LoadDate]"
+                      lineageId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].Columns[Bronze_LoadDate]"
+                      name="Bronze_LoadDate"
+                      scale="7"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].Columns[Bronze_SourceVersion]"
+                      dataType="i8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].ExternalColumns[Bronze_SourceVersion]"
+                      lineageId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].Columns[Bronze_SourceVersion]"
+                      name="Bronze_SourceVersion"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].Columns[Bronze_Operation]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].ExternalColumns[Bronze_Operation]"
+                      length="1"
+                      lineageId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].Columns[Bronze_Operation]"
+                      name="Bronze_Operation"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].Columns[Bronze_ETL_BatchID]"
+                      dataType="guid"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].ExternalColumns[Bronze_ETL_BatchID]"
+                      lineageId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].Columns[Bronze_ETL_BatchID]"
+                      name="Bronze_ETL_BatchID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].Columns[abortion_date]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].ExternalColumns[abortion_date]"
+                      lineageId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].Columns[abortion_date]"
+                      name="abortion_date"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].ExternalColumns[pregnancy_id]"
+                      dataType="i4"
+                      name="pregnancy_id" />
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].ExternalColumns[patient_id]"
+                      dataType="i4"
+                      name="patient_id" />
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].ExternalColumns[start_date]"
+                      dataType="dbDate"
+                      name="start_date" />
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].ExternalColumns[expected_due_date]"
+                      dataType="dbDate"
+                      name="expected_due_date" />
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].ExternalColumns[actual_delivery_date]"
+                      dataType="dbDate"
+                      name="actual_delivery_date" />
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].ExternalColumns[current_week]"
+                      dataType="i4"
+                      name="current_week" />
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].ExternalColumns[pregnancy_status]"
+                      dataType="wstr"
+                      length="30"
+                      name="pregnancy_status" />
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].ExternalColumns[notes]"
+                      dataType="nText"
+                      name="notes" />
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].ExternalColumns[created_at]"
+                      dataType="dbTimeStamp2"
+                      name="created_at"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].ExternalColumns[is_high_risk]"
+                      dataType="bool"
+                      name="is_high_risk" />
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].ExternalColumns[risk_factors]"
+                      dataType="wstr"
+                      length="200"
+                      name="risk_factors" />
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].ExternalColumns[Bronze_LoadID]"
+                      dataType="i8"
+                      name="Bronze_LoadID" />
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].ExternalColumns[Bronze_LoadDate]"
+                      dataType="dbTimeStamp2"
+                      name="Bronze_LoadDate"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].ExternalColumns[Bronze_SourceVersion]"
+                      dataType="i8"
+                      name="Bronze_SourceVersion" />
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].ExternalColumns[Bronze_Operation]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="Bronze_Operation" />
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].ExternalColumns[Bronze_ETL_BatchID]"
+                      dataType="guid"
+                      name="Bronze_ETL_BatchID" />
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].ExternalColumns[abortion_date]"
+                      dataType="dbDate"
+                      name="abortion_date" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Error Output].Columns[pregnancy_id]"
+                      dataType="i4"
+                      lineageId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Error Output].Columns[pregnancy_id]"
+                      name="pregnancy_id" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Error Output].Columns[patient_id]"
+                      dataType="i4"
+                      lineageId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Error Output].Columns[patient_id]"
+                      name="patient_id" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Error Output].Columns[start_date]"
+                      dataType="dbDate"
+                      lineageId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Error Output].Columns[start_date]"
+                      name="start_date" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Error Output].Columns[expected_due_date]"
+                      dataType="dbDate"
+                      lineageId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Error Output].Columns[expected_due_date]"
+                      name="expected_due_date" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Error Output].Columns[actual_delivery_date]"
+                      dataType="dbDate"
+                      lineageId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Error Output].Columns[actual_delivery_date]"
+                      name="actual_delivery_date" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Error Output].Columns[current_week]"
+                      dataType="i4"
+                      lineageId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Error Output].Columns[current_week]"
+                      name="current_week" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Error Output].Columns[pregnancy_status]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Error Output].Columns[pregnancy_status]"
+                      name="pregnancy_status" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Error Output].Columns[abortion_date]"
+                      dataType="dbDate"
+                      lineageId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Error Output].Columns[abortion_date]"
+                      name="abortion_date" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Error Output].Columns[notes]"
+                      dataType="nText"
+                      lineageId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Error Output].Columns[notes]"
+                      name="notes" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Error Output].Columns[created_at]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Error Output].Columns[created_at]"
+                      name="created_at"
+                      scale="7" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Error Output].Columns[is_high_risk]"
+                      dataType="bool"
+                      lineageId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Error Output].Columns[is_high_risk]"
+                      name="is_high_risk" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Error Output].Columns[risk_factors]"
+                      dataType="wstr"
+                      length="200"
+                      lineageId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Error Output].Columns[risk_factors]"
+                      name="risk_factors" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Error Output].Columns[Bronze_LoadID]"
+                      dataType="i8"
+                      lineageId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Error Output].Columns[Bronze_LoadID]"
+                      name="Bronze_LoadID" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Error Output].Columns[Bronze_LoadDate]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Error Output].Columns[Bronze_LoadDate]"
+                      name="Bronze_LoadDate"
+                      scale="7" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Error Output].Columns[Bronze_SourceVersion]"
+                      dataType="i8"
+                      lineageId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Error Output].Columns[Bronze_SourceVersion]"
+                      name="Bronze_SourceVersion" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Error Output].Columns[Bronze_Operation]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Error Output].Columns[Bronze_Operation]"
+                      name="Bronze_Operation" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Error Output].Columns[Bronze_ETL_BatchID]"
+                      dataType="guid"
+                      lineageId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Error Output].Columns[Bronze_ETL_BatchID]"
+                      name="Bronze_ETL_BatchID" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Pregnancy_hist Transformation\Connecting Destination"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="Connecting Destination"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[Silver].[Pregnancy_hist]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">true</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Pregnancy_hist Transformation\Connecting Destination.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[LocalHost.Se7tekDWH]"
+                  connectionManagerRefId="Package.ConnectionManagers[LocalHost.Se7tekDWH]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Pregnancy_hist Transformation\Connecting Destination.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Pregnancy_hist Transformation\Connecting Destination.Inputs[OLE DB Destination Input].Columns[pregnancy_id]"
+                      cachedDataType="i4"
+                      cachedName="pregnancy_id"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\Connecting Destination.Inputs[OLE DB Destination Input].ExternalColumns[pregnancy_id]"
+                      lineageId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].Columns[pregnancy_id]" />
+                    <inputColumn
+                      refId="Package\Pregnancy_hist Transformation\Connecting Destination.Inputs[OLE DB Destination Input].Columns[patient_id]"
+                      cachedDataType="i4"
+                      cachedName="patient_id"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\Connecting Destination.Inputs[OLE DB Destination Input].ExternalColumns[patient_id]"
+                      lineageId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].Columns[patient_id]" />
+                    <inputColumn
+                      refId="Package\Pregnancy_hist Transformation\Connecting Destination.Inputs[OLE DB Destination Input].Columns[start_date]"
+                      cachedDataType="dbDate"
+                      cachedName="start_date"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\Connecting Destination.Inputs[OLE DB Destination Input].ExternalColumns[start_date]"
+                      lineageId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].Columns[start_date]" />
+                    <inputColumn
+                      refId="Package\Pregnancy_hist Transformation\Connecting Destination.Inputs[OLE DB Destination Input].Columns[expected_due_date]"
+                      cachedDataType="dbDate"
+                      cachedName="expected_due_date"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\Connecting Destination.Inputs[OLE DB Destination Input].ExternalColumns[expected_due_date]"
+                      lineageId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].Columns[expected_due_date]" />
+                    <inputColumn
+                      refId="Package\Pregnancy_hist Transformation\Connecting Destination.Inputs[OLE DB Destination Input].Columns[actual_delivery_date]"
+                      cachedDataType="dbDate"
+                      cachedName="actual_delivery_date"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\Connecting Destination.Inputs[OLE DB Destination Input].ExternalColumns[actual_delivery_date]"
+                      lineageId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].Columns[actual_delivery_date]" />
+                    <inputColumn
+                      refId="Package\Pregnancy_hist Transformation\Connecting Destination.Inputs[OLE DB Destination Input].Columns[current_week]"
+                      cachedDataType="i4"
+                      cachedName="current_week"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\Connecting Destination.Inputs[OLE DB Destination Input].ExternalColumns[current_week]"
+                      lineageId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].Columns[current_week]" />
+                    <inputColumn
+                      refId="Package\Pregnancy_hist Transformation\Connecting Destination.Inputs[OLE DB Destination Input].Columns[pregnancy_status]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="pregnancy_status"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\Connecting Destination.Inputs[OLE DB Destination Input].ExternalColumns[pregnancy_status]"
+                      lineageId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].Columns[pregnancy_status]" />
+                    <inputColumn
+                      refId="Package\Pregnancy_hist Transformation\Connecting Destination.Inputs[OLE DB Destination Input].Columns[notes]"
+                      cachedDataType="nText"
+                      cachedName="notes"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\Connecting Destination.Inputs[OLE DB Destination Input].ExternalColumns[notes]"
+                      lineageId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].Columns[notes]" />
+                    <inputColumn
+                      refId="Package\Pregnancy_hist Transformation\Connecting Destination.Inputs[OLE DB Destination Input].Columns[created_at]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="created_at"
+                      cachedScale="7"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\Connecting Destination.Inputs[OLE DB Destination Input].ExternalColumns[created_at]"
+                      lineageId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].Columns[created_at]" />
+                    <inputColumn
+                      refId="Package\Pregnancy_hist Transformation\Connecting Destination.Inputs[OLE DB Destination Input].Columns[is_high_risk]"
+                      cachedDataType="bool"
+                      cachedName="is_high_risk"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\Connecting Destination.Inputs[OLE DB Destination Input].ExternalColumns[is_high_risk]"
+                      lineageId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].Columns[is_high_risk]" />
+                    <inputColumn
+                      refId="Package\Pregnancy_hist Transformation\Connecting Destination.Inputs[OLE DB Destination Input].Columns[risk_factors]"
+                      cachedDataType="wstr"
+                      cachedLength="200"
+                      cachedName="risk_factors"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\Connecting Destination.Inputs[OLE DB Destination Input].ExternalColumns[risk_factors]"
+                      lineageId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].Columns[risk_factors]" />
+                    <inputColumn
+                      refId="Package\Pregnancy_hist Transformation\Connecting Destination.Inputs[OLE DB Destination Input].Columns[abortion_date]"
+                      cachedDataType="dbDate"
+                      cachedName="abortion_date"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\Connecting Destination.Inputs[OLE DB Destination Input].ExternalColumns[abortion_date]"
+                      lineageId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output].Columns[abortion_date]" />
+                    <inputColumn
+                      refId="Package\Pregnancy_hist Transformation\Connecting Destination.Inputs[OLE DB Destination Input].Columns[Trimester]"
+                      cachedDataType="wstr"
+                      cachedLength="2"
+                      cachedName="Trimester"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\Connecting Destination.Inputs[OLE DB Destination Input].ExternalColumns[Trimester]"
+                      lineageId="Package\Pregnancy_hist Transformation\Adding Columns.Outputs[Derived Column Output].Columns[Trimester]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\Connecting Destination.Inputs[OLE DB Destination Input].ExternalColumns[pregnancy_id]"
+                      dataType="i4"
+                      name="pregnancy_id" />
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\Connecting Destination.Inputs[OLE DB Destination Input].ExternalColumns[patient_id]"
+                      dataType="i4"
+                      name="patient_id" />
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\Connecting Destination.Inputs[OLE DB Destination Input].ExternalColumns[start_date]"
+                      dataType="dbDate"
+                      name="start_date" />
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\Connecting Destination.Inputs[OLE DB Destination Input].ExternalColumns[expected_due_date]"
+                      dataType="dbDate"
+                      name="expected_due_date" />
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\Connecting Destination.Inputs[OLE DB Destination Input].ExternalColumns[actual_delivery_date]"
+                      dataType="dbDate"
+                      name="actual_delivery_date" />
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\Connecting Destination.Inputs[OLE DB Destination Input].ExternalColumns[current_week]"
+                      dataType="i4"
+                      name="current_week" />
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\Connecting Destination.Inputs[OLE DB Destination Input].ExternalColumns[pregnancy_status]"
+                      dataType="wstr"
+                      length="30"
+                      name="pregnancy_status" />
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\Connecting Destination.Inputs[OLE DB Destination Input].ExternalColumns[abortion_date]"
+                      dataType="dbDate"
+                      name="abortion_date" />
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\Connecting Destination.Inputs[OLE DB Destination Input].ExternalColumns[notes]"
+                      dataType="nText"
+                      name="notes" />
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\Connecting Destination.Inputs[OLE DB Destination Input].ExternalColumns[created_at]"
+                      dataType="dbTimeStamp2"
+                      name="created_at"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\Connecting Destination.Inputs[OLE DB Destination Input].ExternalColumns[is_high_risk]"
+                      dataType="bool"
+                      name="is_high_risk" />
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\Connecting Destination.Inputs[OLE DB Destination Input].ExternalColumns[risk_factors]"
+                      dataType="wstr"
+                      length="200"
+                      name="risk_factors" />
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\Connecting Destination.Inputs[OLE DB Destination Input].ExternalColumns[Trimester]"
+                      dataType="wstr"
+                      length="20"
+                      name="Trimester" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Pregnancy_hist Transformation\Connecting Destination.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Pregnancy_hist Transformation\Connecting Destination.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\Connecting Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Pregnancy_hist Transformation\Connecting Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\Connecting Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Pregnancy_hist Transformation\Connecting Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Pregnancy_hist Transformation.Paths[Derived Column Output]"
+              endId="Package\Pregnancy_hist Transformation\Connecting Destination.Inputs[OLE DB Destination Input]"
+              name="Derived Column Output"
+              startId="Package\Pregnancy_hist Transformation\Adding Columns.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Pregnancy_hist Transformation.Paths[OLE DB Source Output]"
+              endId="Package\Pregnancy_hist Transformation\Adding Columns.Inputs[Derived Column Input]"
+              name="OLE DB Source Output"
+              startId="Package\Pregnancy_hist Transformation\Connectin Source.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="162.4,41.6"
+          Id="Package\Loading Other Tables"
+          TopLeft="182.857143118674,101.741176473269" />
+        <NodeLayout
+          Size="224.8,41.6"
+          Id="Package\Pregnancy_hist Transformation"
+          TopLeft="170.714285949967,172.694117553888" />
+        <NodeLayout
+          Size="162.4,41.6"
+          Id="Package\Loading Other Tables 1"
+          TopLeft="170.714285949967,274.294117553888" />
+        <NodeLayout
+          Size="162.4,41.6"
+          Id="Package\Loading Other Tables 2"
+          TopLeft="170.714285949967,375.894117553888" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Pregnancy_hist Transformation">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="187.2,41.6"
+          Id="Package\Pregnancy_hist Transformation\Connecting Destination"
+          TopLeft="347.142857881833,167.4705880885" />
+        <NodeLayout
+          Size="160,41.6"
+          Id="Package\Pregnancy_hist Transformation\Connectin Source"
+          TopLeft="378.99999435246,12.9999998062849" />
+        <NodeLayout
+          Size="154.4,41.6"
+          Id="Package\Pregnancy_hist Transformation\Adding Columns"
+          TopLeft="361.571422818668,90.5882336439559" />
+        <EdgeLayout
+          Id="Package\Pregnancy_hist Transformation.Paths[Derived Column Output]"
+          TopLeft="439.75714035025,132.188233643956">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,35.2823544445438"
+              Start="0,0"
+              End="0,27.7823544445438">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,27.7823544445438" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Pregnancy_hist Transformation.Paths[OLE DB Source Output]"
+          TopLeft="458.99999435246,54.5999998062849">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-20.2285715337923,35.988233837671"
+              Start="0,0"
+              End="-20.2285715337923,28.488233837671">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,13.9941169188355" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,13.9941169188355"
+                    Point2="0,17.9941169188355"
+                    Point3="-4,17.9941169188355" />
+                  <mssgle:LineSegment
+                    End="-16.2285715337923,17.9941169188355" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-16.2285715337923,17.9941169188355"
+                    Point2="-20.2285715337923,17.9941169188355"
+                    Point3="-20.2285715337923,21.9941169188355" />
+                  <mssgle:LineSegment
+                    End="-20.2285715337923,28.488233837671" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

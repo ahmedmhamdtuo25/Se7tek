@@ -1,0 +1,2904 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="5/18/2026 5:51:29 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="DESKTOP-K4BMBC9"
+  DTS:CreatorName="DESKTOP-K4BMBC9\Diab Saeed"
+  DTS:DTSID="{DBA1FCF3-D39C-49FB-B51E-1AFD0DE04F6C}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="17.0.1010.2"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Silver"
+  DTS:PackageType="5"
+  DTS:VersionBuild="133"
+  DTS:VersionGUID="{6159ED0A-5F22-446E-879D-28F63F276D3C}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[LocalHost]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{13670C35-4DB8-4CAB-A312-6FF0A3E92C01}"
+      DTS:ObjectName="LocalHost">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=.;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;Application Name=SSIS-Silver-{13670C35-4DB8-4CAB-A312-6FF0A3E92C01}LocalHost;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[LocalHost.Se7tekDWH]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{A81F8718-FEE8-419C-A40D-C866216A000C}"
+      DTS:ObjectName="LocalHost.Se7tekDWH">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=.;Initial Catalog=Se7tekDWH;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;Application Name=SSIS-Silver-{A81F8718-FEE8-419C-A40D-C866216A000C}LocalHost.Se7tekDWH;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[LocalHost.Se7tekDWH 1]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{F3760586-6B03-4B5C-A805-1D4DEA5CFE0C}"
+      DTS:ObjectName="LocalHost.Se7tekDWH 1">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectRetryCount="1"
+          DTS:ConnectRetryInterval="5"
+          DTS:ConnectionString="Data Source=.;Initial Catalog=Se7tekDWH;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;Application Name=SSIS-Silver-{F3760586-6B03-4B5C-A805-1D4DEA5CFE0C}LocalHost.Se7tekDWH 1;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{881B60D0-79B8-4E02-AF12-3C8A2736C944}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;ALTER TABLE Silver.&quot;+ @[User::TableName] + &quot; ADD&#xA;    Silver_ValidFrom DATETIME2 NOT NULL DEFAULT GETDATE(),&#xA;    Silver_ValidTo DATETIME2 NULL,&#xA;    Silver_IsCurrent BIT NOT NULL DEFAULT 1,&#xA;    Silver_ETL_BatchID UNIQUEIDENTIFIER NULL,&#xA;    Silver_InsertDate DATETIME2 NOT NULL DEFAULT GETDATE(),&#xA;    Silver_UpdateDate DATETIME2 NULL;&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="AddingMetaData">
+      <DTS:VariableValue
+        DTS:DataType="8">ALTER TABLE Silver.patient_profile ADD
+    Silver_ValidFrom DATETIME2 NOT NULL DEFAULT GETDATE(),
+    Silver_ValidTo DATETIME2 NULL,
+    Silver_IsCurrent BIT NOT NULL DEFAULT 1,
+    Silver_ETL_BatchID UNIQUEIDENTIFIER NULL,
+    Silver_InsertDate DATETIME2 NOT NULL DEFAULT GETDATE(),
+    Silver_UpdateDate DATETIME2 NULL;</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{F19E6FC4-60CC-4C04-AA36-0C73F3BBF93D}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;&#xA;IF OBJECT_ID('Se7tekDWH.Silver.&quot; + @[User::TableName] + &quot;', 'U') IS NULL &#xA;BEGIN&#xA;SELECT * INTO Se7tekDWH.Silver.&quot; + @[User::TableName] + &quot; FROM Se7tek.dbo.&quot; + @[User::TableName] + &quot; WHERE 1 = -1 END&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="CreatingSilverLayers">
+      <DTS:VariableValue
+        DTS:DataType="8">
+IF OBJECT_ID('Se7tekDWH.Silver.patient_profile', 'U') IS NULL 
+BEGIN
+SELECT * INTO Se7tekDWH.Silver.patient_profile FROM Se7tek.dbo.patient_profile WHERE 1 = -1 END</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{516A621B-1692-4E6F-A04F-A3801EF20389}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;SELECT MAX(Bronze_ETL_BatchID)&#xA;FROM Bronze.&quot;+ @[User::TableName]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Max_BronzeID">
+      <DTS:VariableValue
+        DTS:DataType="8">SELECT MAX(Bronze_ETL_BatchID)
+FROM Bronze.patient_profile</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{0DD03306-91F3-475C-8C65-A4F2746D19DD}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="&quot;EXEC sp_incremental_silver @TableName='Bronze.&quot;+@[User::TableName]+&quot;'&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="SourceTables">
+      <DTS:VariableValue
+        DTS:DataType="8">EXEC sp_incremental_silver @TableName='Bronze.patient_profile'</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{7E5F6487-88C0-4DF6-89C1-ED35E57307F7}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="TableName">
+      <DTS:VariableValue
+        DTS:DataType="8">patient_profile</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{B68D49B9-3811-4856-B87E-A6B2868B8A1B}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="TableNames">
+      <DTS:VariableValue
+        DTS:DataSubType="ManagedSerializable"
+        DTS:DataType="13">
+        <SOAP-ENV:Envelope xmlns:clr="http://schemas.microsoft.com/soap/encoding/clr/1.0" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+          <SOAP-ENV:Body>
+            <xsd:anyType
+              id="ref-1"></xsd:anyType>
+          </SOAP-ENV:Body>
+        </SOAP-ENV:Envelope>
+      </DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Foreach Loop Container"
+      DTS:CreationName="STOCK:FOREACHLOOP"
+      DTS:Description="Foreach Loop Container"
+      DTS:DTSID="{B57B7242-15D3-4B0D-8E9D-A318581AC473}"
+      DTS:ExecutableType="STOCK:FOREACHLOOP"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Foreach Loop Container">
+      <DTS:ForEachEnumerator
+        DTS:CreationName="Microsoft.ForEachADOEnumerator"
+        DTS:DTSID="{DF0A814F-DD66-48DF-9D59-FA3E24F74B42}"
+        DTS:ObjectName="{DF0A814F-DD66-48DF-9D59-FA3E24F74B42}">
+        <DTS:ObjectData>
+          <FEEADO
+            EnumType="EnumerateRowsInFirstTable"
+            VarName="User::TableNames" />
+        </DTS:ObjectData>
+      </DTS:ForEachEnumerator>
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Foreach Loop Container\Execute SQL Task"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{DD676C46-CD01-4909-8617-B3288031ABC1}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Execute SQL Task"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2025; © 2025 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{A81F8718-FEE8-419C-A40D-C866216A000C}"
+              SQLTask:SqlStatementSource="EXEC sp_incremental_stg @TableName=?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="0"
+                SQLTask:DtsVariableName="User::TableName"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="130"
+                SQLTask:ParameterSize="-1" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Foreach Loop Container\Execute SQL Task 1"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{0241647A-AC1F-46B8-BF9D-739EE55348A1}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Execute SQL Task 1"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2025; © 2025 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{A81F8718-FEE8-419C-A40D-C866216A000C}"
+              SQLTask:SqlStmtSourceType="Variable"
+              SQLTask:SqlStatementSource="User::AddingMetaData" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Foreach Loop Container\Loading Other Tables 1"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{858d17fb-9b2c-48c3-a67c-97bda8cd8b72}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Loading Other Tables 1"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2025; © 2025 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:PropertyExpression
+            DTS:Name="Disable">@[User::TableName] == "Pregnancy_hist" || @[User::TableName] == "Patient_profile"</DTS:PropertyExpression>
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{A81F8718-FEE8-419C-A40D-C866216A000C}"
+              SQLTask:SqlStatementSource="EXEC sp_incremental_silver @TableName=?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="0"
+                SQLTask:DtsVariableName="User::TableName"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="130"
+                SQLTask:ParameterSize="-1" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Foreach Loop Container.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{AE83D7D1-67DC-4C54-8464-9B0BA489DD21}"
+          DTS:EvalOp="3"
+          DTS:Expression="@[User::TableName] == &quot;Patient_profile&quot;"
+          DTS:From="Package\Foreach Loop Container\Loading Other Tables 1"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\Foreach Loop Container\Execute SQL Task" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Foreach Loop Container.PrecedenceConstraints[Constraint 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{06B861C4-1920-43EA-A24B-779A5EF13FE6}"
+          DTS:From="Package\Foreach Loop Container\Execute SQL Task 1"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 1"
+          DTS:To="Package\Foreach Loop Container\Loading Other Tables 1" />
+      </DTS:PrecedenceConstraints>
+      <DTS:ForEachVariableMappings>
+        <DTS:ForEachVariableMapping
+          DTS:CreationName=""
+          DTS:DTSID="{08A330E2-ABEB-41B6-9DF0-05F188A431BF}"
+          DTS:ObjectName="{08A330E2-ABEB-41B6-9DF0-05F188A431BF}"
+          DTS:ValueIndex="0"
+          DTS:VariableName="User::TableName" />
+      </DTS:ForEachVariableMappings>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Patient_profile Transformation"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{fe95b027-350c-4afe-ae4f-1ff651571d86}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Patient_profile Transformation"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Patient_profile Transformation\Adding Category Columns"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Adding Category Columns"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Patient_profile Transformation\Adding Category Columns.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Patient_profile Transformation\Adding Category Columns.Inputs[Derived Column Input].Columns[date_of_birth]"
+                      cachedDataType="dbDate"
+                      cachedName="date_of_birth"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[date_of_birth]" />
+                    <inputColumn
+                      refId="Package\Patient_profile Transformation\Adding Category Columns.Inputs[Derived Column Input].Columns[bmi]"
+                      cachedDataType="numeric"
+                      cachedName="bmi"
+                      cachedPrecision="5"
+                      cachedScale="2"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[bmi]" />
+                    <inputColumn
+                      refId="Package\Patient_profile Transformation\Adding Category Columns.Inputs[Derived Column Input].Columns[STG_OperationType]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="7"
+                      cachedName="STG_OperationType"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[STG_OperationType]" />
+                    <inputColumn
+                      refId="Package\Patient_profile Transformation\Adding Category Columns.Inputs[Derived Column Input].Columns[Bronze_Operation]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="Bronze_Operation"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[Bronze_Operation]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Patient_profile Transformation\Adding Category Columns.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\Patient_profile Transformation\Adding Category Columns.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Patient_profile Transformation\Adding Category Columns.Outputs[Derived Column Output].Columns[Age_Band]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="5"
+                      lineageId="Package\Patient_profile Transformation\Adding Category Columns.Outputs[Derived Column Output].Columns[Age_Band]"
+                      name="Age_Band"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_I8)([YEAR]([GETDATE]()) - [YEAR](#{Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[date_of_birth]})) &lt; 18 ? "&lt;18" : ((DT_I8)([YEAR]([GETDATE]()) - [YEAR](#{Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[date_of_birth]})) &lt; 25 ? "18-24" : ((DT_I8)([YEAR]([GETDATE]()) - [YEAR](#{Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[date_of_birth]})) &lt; 30 ? "25-29" : ((DT_I8)([YEAR]([GETDATE]()) - [YEAR](#{Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[date_of_birth]})) &lt; 35 ? "30-34" : ((DT_I8)([YEAR]([GETDATE]()) - [YEAR](#{Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[date_of_birth]})) &lt; 40 ? "35-39" : "+40"))))</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_I8)(YEAR(GETDATE()) - YEAR(date_of_birth)) &lt; 18 ? "&lt;18" : ((DT_I8)(YEAR(GETDATE()) - YEAR(date_of_birth)) &lt; 25 ? "18-24" : ((DT_I8)(YEAR(GETDATE()) - YEAR(date_of_birth)) &lt; 30 ? "25-29" : ((DT_I8)(YEAR(GETDATE()) - YEAR(date_of_birth)) &lt; 35 ? "30-34" : ((DT_I8)(YEAR(GETDATE()) - YEAR(date_of_birth)) &lt; 40 ? "35-39" : "+40"))))</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Patient_profile Transformation\Adding Category Columns.Outputs[Derived Column Output].Columns[Bmi_Category]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="11"
+                      lineageId="Package\Patient_profile Transformation\Adding Category Columns.Outputs[Derived Column Output].Columns[Bmi_Category]"
+                      name="Bmi_Category"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">#{Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[bmi]} &lt; 18.5 ? "Underweight" : (#{Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[bmi]} &lt; 25 ? "Normal" : (#{Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[bmi]} &lt; 30 ? "Overweight" : "Obese"))</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">bmi &lt; 18.5 ? "Underweight" : (bmi &lt; 25 ? "Normal" : (bmi &lt; 30 ? "Overweight" : "Obese"))</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Patient_profile Transformation\Adding Category Columns.Outputs[Derived Column Output].Columns[Silver_ValidFrom]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Patient_profile Transformation\Adding Category Columns.Outputs[Derived Column Output].Columns[Silver_ValidFrom]"
+                      name="Silver_ValidFrom"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[GETDATE]()</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">GETDATE()</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Patient_profile Transformation\Adding Category Columns.Outputs[Derived Column Output].Columns[Silver_ValidTo]"
+                      dataType="dbTime"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Patient_profile Transformation\Adding Category Columns.Outputs[Derived Column Output].Columns[Silver_ValidTo]"
+                      name="Silver_ValidTo"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">NULL(DT_DBTIME)</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">NULL(DT_DBTIME)</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Patient_profile Transformation\Adding Category Columns.Outputs[Derived Column Output].Columns[Silver_IsCurrent]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Patient_profile Transformation\Adding Category Columns.Outputs[Derived Column Output].Columns[Silver_IsCurrent]"
+                      name="Silver_IsCurrent"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(#{Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[STG_OperationType]} == "U" || #{Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[STG_OperationType]} == "I") ? 1 : 0</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(STG_OperationType == "U" || STG_OperationType == "I") ? 1 : 0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Patient_profile Transformation\Adding Category Columns.Outputs[Derived Column Output].Columns[InsertionDate]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Patient_profile Transformation\Adding Category Columns.Outputs[Derived Column Output].Columns[InsertionDate]"
+                      name="InsertionDate"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">#{Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[Bronze_Operation]} == "I" ? [GETDATE]() : NULL(DT_DBTIMESTAMP)</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">Bronze_Operation == "I" ? GETDATE() : NULL(DT_DBTIMESTAMP)</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Patient_profile Transformation\Adding Category Columns.Outputs[Derived Column Output].Columns[UpdateDate]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Patient_profile Transformation\Adding Category Columns.Outputs[Derived Column Output].Columns[UpdateDate]"
+                      name="UpdateDate"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">#{Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[Bronze_Operation]} == "U" ? [GETDATE]() : NULL(DT_DBTIMESTAMP)</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">Bronze_Operation == "U" ? GETDATE() : NULL(DT_DBTIMESTAMP)</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Patient_profile Transformation\Adding Category Columns.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\Patient_profile Transformation\Adding Category Columns.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Patient_profile Transformation\Adding Category Columns.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Patient_profile Transformation\Adding Category Columns.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Patient_profile Transformation\Adding Category Columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Patient_profile Transformation\Adding Category Columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Patient_profile Transformation\OLE DB Destination"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE DB Destination"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[Silver].[Patient_profile]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">true</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Patient_profile Transformation\OLE DB Destination.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[LocalHost.Se7tekDWH]"
+                  connectionManagerRefId="Package.ConnectionManagers[LocalHost.Se7tekDWH]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Patient_profile Transformation\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[patient_id]"
+                      cachedDataType="i4"
+                      cachedName="patient_id"
+                      externalMetadataColumnId="Package\Patient_profile Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[patient_id]"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[patient_id]" />
+                    <inputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[full_name]"
+                      cachedDataType="wstr"
+                      cachedLength="150"
+                      cachedName="full_name"
+                      externalMetadataColumnId="Package\Patient_profile Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[full_name]"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[full_name]" />
+                    <inputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[date_of_birth]"
+                      cachedDataType="dbDate"
+                      cachedName="date_of_birth"
+                      externalMetadataColumnId="Package\Patient_profile Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[date_of_birth]"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[date_of_birth]" />
+                    <inputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[blood_type]"
+                      cachedDataType="wstr"
+                      cachedLength="5"
+                      cachedName="blood_type"
+                      externalMetadataColumnId="Package\Patient_profile Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[blood_type]"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[blood_type]" />
+                    <inputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[phone]"
+                      cachedDataType="wstr"
+                      cachedLength="20"
+                      cachedName="phone"
+                      externalMetadataColumnId="Package\Patient_profile Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[phone]"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[phone]" />
+                    <inputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[email]"
+                      cachedDataType="wstr"
+                      cachedLength="150"
+                      cachedName="email"
+                      externalMetadataColumnId="Package\Patient_profile Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[email]"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[email]" />
+                    <inputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[address]"
+                      cachedDataType="nText"
+                      cachedName="address"
+                      externalMetadataColumnId="Package\Patient_profile Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[address]"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[address]" />
+                    <inputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[emergency_contact]"
+                      cachedDataType="wstr"
+                      cachedLength="150"
+                      cachedName="emergency_contact"
+                      externalMetadataColumnId="Package\Patient_profile Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[emergency_contact]"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[emergency_contact]" />
+                    <inputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[created_at]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="created_at"
+                      cachedScale="7"
+                      externalMetadataColumnId="Package\Patient_profile Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[created_at]"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[created_at]" />
+                    <inputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[bmi]"
+                      cachedDataType="numeric"
+                      cachedName="bmi"
+                      cachedPrecision="5"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Patient_profile Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[bmi]"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[bmi]" />
+                    <inputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[smoker]"
+                      cachedDataType="bool"
+                      cachedName="smoker"
+                      externalMetadataColumnId="Package\Patient_profile Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[smoker]"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[smoker]" />
+                    <inputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[previous_pregnancies]"
+                      cachedDataType="i4"
+                      cachedName="previous_pregnancies"
+                      externalMetadataColumnId="Package\Patient_profile Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[previous_pregnancies]"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[previous_pregnancies]" />
+                    <inputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[governorate]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="governorate"
+                      externalMetadataColumnId="Package\Patient_profile Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[governorate]"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[governorate]" />
+                    <inputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Silver_ValidFrom]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="Silver_ValidFrom"
+                      externalMetadataColumnId="Package\Patient_profile Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Silver_ValidFrom]"
+                      lineageId="Package\Patient_profile Transformation\Adding Category Columns.Outputs[Derived Column Output].Columns[Silver_ValidFrom]" />
+                    <inputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Silver_ValidTo]"
+                      cachedDataType="dbTime"
+                      cachedName="Silver_ValidTo"
+                      externalMetadataColumnId="Package\Patient_profile Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Silver_ValidTo]"
+                      lineageId="Package\Patient_profile Transformation\Adding Category Columns.Outputs[Derived Column Output].Columns[Silver_ValidTo]" />
+                    <inputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Silver_IsCurrent]"
+                      cachedDataType="i4"
+                      cachedName="Silver_IsCurrent"
+                      externalMetadataColumnId="Package\Patient_profile Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Silver_IsCurrent]"
+                      lineageId="Package\Patient_profile Transformation\Adding Category Columns.Outputs[Derived Column Output].Columns[Silver_IsCurrent]" />
+                    <inputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[STG_BatchID]"
+                      cachedDataType="guid"
+                      cachedName="STG_BatchID"
+                      externalMetadataColumnId="Package\Patient_profile Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Silver_ETL_BatchID]"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[STG_BatchID]" />
+                    <inputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[InsertionDate]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="InsertionDate"
+                      externalMetadataColumnId="Package\Patient_profile Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Silver_InsertDate]"
+                      lineageId="Package\Patient_profile Transformation\Adding Category Columns.Outputs[Derived Column Output].Columns[InsertionDate]" />
+                    <inputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[UpdateDate]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="UpdateDate"
+                      externalMetadataColumnId="Package\Patient_profile Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Silver_UpdateDate]"
+                      lineageId="Package\Patient_profile Transformation\Adding Category Columns.Outputs[Derived Column Output].Columns[UpdateDate]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[patient_id]"
+                      dataType="i4"
+                      name="patient_id" />
+                    <externalMetadataColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[full_name]"
+                      dataType="wstr"
+                      length="150"
+                      name="full_name" />
+                    <externalMetadataColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[date_of_birth]"
+                      dataType="dbDate"
+                      name="date_of_birth" />
+                    <externalMetadataColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[blood_type]"
+                      dataType="wstr"
+                      length="5"
+                      name="blood_type" />
+                    <externalMetadataColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[phone]"
+                      dataType="wstr"
+                      length="20"
+                      name="phone" />
+                    <externalMetadataColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[email]"
+                      dataType="wstr"
+                      length="150"
+                      name="email" />
+                    <externalMetadataColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[address]"
+                      dataType="nText"
+                      name="address" />
+                    <externalMetadataColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[emergency_contact]"
+                      dataType="wstr"
+                      length="150"
+                      name="emergency_contact" />
+                    <externalMetadataColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[created_at]"
+                      dataType="dbTimeStamp2"
+                      name="created_at"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[bmi]"
+                      dataType="numeric"
+                      name="bmi"
+                      precision="5"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[smoker]"
+                      dataType="bool"
+                      name="smoker" />
+                    <externalMetadataColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[previous_pregnancies]"
+                      dataType="i4"
+                      name="previous_pregnancies" />
+                    <externalMetadataColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[governorate]"
+                      dataType="wstr"
+                      length="50"
+                      name="governorate" />
+                    <externalMetadataColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Silver_ValidFrom]"
+                      dataType="dbTimeStamp2"
+                      name="Silver_ValidFrom"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Silver_ValidTo]"
+                      dataType="dbTimeStamp2"
+                      name="Silver_ValidTo"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Silver_IsCurrent]"
+                      dataType="bool"
+                      name="Silver_IsCurrent" />
+                    <externalMetadataColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Silver_ETL_BatchID]"
+                      dataType="guid"
+                      name="Silver_ETL_BatchID" />
+                    <externalMetadataColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Silver_InsertDate]"
+                      dataType="dbTimeStamp2"
+                      name="Silver_InsertDate"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Silver_UpdateDate]"
+                      dataType="dbTimeStamp2"
+                      name="Silver_UpdateDate"
+                      scale="7" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Patient_profile Transformation\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Patient_profile Transformation\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Patient_profile Transformation\OLE DB Source"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="OLE DB Source"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[STG].[patient_profile]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Patient_profile Transformation\OLE DB Source.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[LocalHost.Se7tekDWH]"
+                  connectionManagerRefId="Package.ConnectionManagers[LocalHost.Se7tekDWH]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[patient_id]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[patient_id]"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[patient_id]"
+                      name="patient_id"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[full_name]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[full_name]"
+                      length="150"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[full_name]"
+                      name="full_name"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[date_of_birth]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[date_of_birth]"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[date_of_birth]"
+                      name="date_of_birth"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[blood_type]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[blood_type]"
+                      length="5"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[blood_type]"
+                      name="blood_type"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[phone]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[phone]"
+                      length="20"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[phone]"
+                      name="phone"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[email]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[email]"
+                      length="150"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[email]"
+                      name="email"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[address]"
+                      dataType="nText"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[address]"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[address]"
+                      name="address"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[emergency_contact]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[emergency_contact]"
+                      length="150"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[emergency_contact]"
+                      name="emergency_contact"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[created_at]"
+                      dataType="dbTimeStamp2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[created_at]"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[created_at]"
+                      name="created_at"
+                      scale="7"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[bmi]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[bmi]"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[bmi]"
+                      name="bmi"
+                      precision="5"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[smoker]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[smoker]"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[smoker]"
+                      name="smoker"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[previous_pregnancies]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[previous_pregnancies]"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[previous_pregnancies]"
+                      name="previous_pregnancies"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[governorate]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[governorate]"
+                      length="50"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[governorate]"
+                      name="governorate"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[Bronze_LoadID]"
+                      dataType="i8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Bronze_LoadID]"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[Bronze_LoadID]"
+                      name="Bronze_LoadID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[Bronze_LoadDate]"
+                      dataType="dbTimeStamp2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Bronze_LoadDate]"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[Bronze_LoadDate]"
+                      name="Bronze_LoadDate"
+                      scale="7"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[Bronze_SourceVersion]"
+                      dataType="i8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Bronze_SourceVersion]"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[Bronze_SourceVersion]"
+                      name="Bronze_SourceVersion"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[Bronze_Operation]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Bronze_Operation]"
+                      length="1"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[Bronze_Operation]"
+                      name="Bronze_Operation"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[Bronze_ETL_BatchID]"
+                      dataType="guid"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Bronze_ETL_BatchID]"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[Bronze_ETL_BatchID]"
+                      name="Bronze_ETL_BatchID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[STG_RowNum]"
+                      dataType="i8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[STG_RowNum]"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[STG_RowNum]"
+                      name="STG_RowNum"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[STG_BatchID]"
+                      dataType="guid"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[STG_BatchID]"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[STG_BatchID]"
+                      name="STG_BatchID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[STG_LoadDate]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[STG_LoadDate]"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[STG_LoadDate]"
+                      name="STG_LoadDate"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[STG_OperationType]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[STG_OperationType]"
+                      length="7"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[STG_OperationType]"
+                      name="STG_OperationType"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[STG_ProcessingStatus]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[STG_ProcessingStatus]"
+                      length="7"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[STG_ProcessingStatus]"
+                      name="STG_ProcessingStatus"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[patient_id]"
+                      dataType="i4"
+                      name="patient_id" />
+                    <externalMetadataColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[full_name]"
+                      dataType="wstr"
+                      length="150"
+                      name="full_name" />
+                    <externalMetadataColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[date_of_birth]"
+                      dataType="dbDate"
+                      name="date_of_birth" />
+                    <externalMetadataColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[blood_type]"
+                      dataType="wstr"
+                      length="5"
+                      name="blood_type" />
+                    <externalMetadataColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[phone]"
+                      dataType="wstr"
+                      length="20"
+                      name="phone" />
+                    <externalMetadataColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[email]"
+                      dataType="wstr"
+                      length="150"
+                      name="email" />
+                    <externalMetadataColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[address]"
+                      dataType="nText"
+                      name="address" />
+                    <externalMetadataColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[emergency_contact]"
+                      dataType="wstr"
+                      length="150"
+                      name="emergency_contact" />
+                    <externalMetadataColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[created_at]"
+                      dataType="dbTimeStamp2"
+                      name="created_at"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[bmi]"
+                      dataType="numeric"
+                      name="bmi"
+                      precision="5"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[smoker]"
+                      dataType="bool"
+                      name="smoker" />
+                    <externalMetadataColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[previous_pregnancies]"
+                      dataType="i4"
+                      name="previous_pregnancies" />
+                    <externalMetadataColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[governorate]"
+                      dataType="wstr"
+                      length="50"
+                      name="governorate" />
+                    <externalMetadataColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Bronze_LoadID]"
+                      dataType="i8"
+                      name="Bronze_LoadID" />
+                    <externalMetadataColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Bronze_LoadDate]"
+                      dataType="dbTimeStamp2"
+                      name="Bronze_LoadDate"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Bronze_SourceVersion]"
+                      dataType="i8"
+                      name="Bronze_SourceVersion" />
+                    <externalMetadataColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Bronze_Operation]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="Bronze_Operation" />
+                    <externalMetadataColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Bronze_ETL_BatchID]"
+                      dataType="guid"
+                      name="Bronze_ETL_BatchID" />
+                    <externalMetadataColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[STG_RowNum]"
+                      dataType="i8"
+                      name="STG_RowNum" />
+                    <externalMetadataColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[STG_BatchID]"
+                      dataType="guid"
+                      name="STG_BatchID" />
+                    <externalMetadataColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[STG_LoadDate]"
+                      dataType="dbTimeStamp"
+                      name="STG_LoadDate" />
+                    <externalMetadataColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[STG_OperationType]"
+                      codePage="1252"
+                      dataType="str"
+                      length="7"
+                      name="STG_OperationType" />
+                    <externalMetadataColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[STG_ProcessingStatus]"
+                      codePage="1252"
+                      dataType="str"
+                      length="7"
+                      name="STG_ProcessingStatus" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[patient_id]"
+                      dataType="i4"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[patient_id]"
+                      name="patient_id" />
+                    <outputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[full_name]"
+                      dataType="wstr"
+                      length="150"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[full_name]"
+                      name="full_name" />
+                    <outputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[date_of_birth]"
+                      dataType="dbDate"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[date_of_birth]"
+                      name="date_of_birth" />
+                    <outputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[blood_type]"
+                      dataType="wstr"
+                      length="5"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[blood_type]"
+                      name="blood_type" />
+                    <outputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[phone]"
+                      dataType="wstr"
+                      length="20"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[phone]"
+                      name="phone" />
+                    <outputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[email]"
+                      dataType="wstr"
+                      length="150"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[email]"
+                      name="email" />
+                    <outputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[address]"
+                      dataType="nText"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[address]"
+                      name="address" />
+                    <outputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[emergency_contact]"
+                      dataType="wstr"
+                      length="150"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[emergency_contact]"
+                      name="emergency_contact" />
+                    <outputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[created_at]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[created_at]"
+                      name="created_at"
+                      scale="7" />
+                    <outputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[bmi]"
+                      dataType="numeric"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[bmi]"
+                      name="bmi"
+                      precision="5"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[smoker]"
+                      dataType="bool"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[smoker]"
+                      name="smoker" />
+                    <outputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[previous_pregnancies]"
+                      dataType="i4"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[previous_pregnancies]"
+                      name="previous_pregnancies" />
+                    <outputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[governorate]"
+                      dataType="wstr"
+                      length="50"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[governorate]"
+                      name="governorate" />
+                    <outputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Bronze_LoadID]"
+                      dataType="i8"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Bronze_LoadID]"
+                      name="Bronze_LoadID" />
+                    <outputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Bronze_LoadDate]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Bronze_LoadDate]"
+                      name="Bronze_LoadDate"
+                      scale="7" />
+                    <outputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Bronze_SourceVersion]"
+                      dataType="i8"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Bronze_SourceVersion]"
+                      name="Bronze_SourceVersion" />
+                    <outputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Bronze_Operation]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Bronze_Operation]"
+                      name="Bronze_Operation" />
+                    <outputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Bronze_ETL_BatchID]"
+                      dataType="guid"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Bronze_ETL_BatchID]"
+                      name="Bronze_ETL_BatchID" />
+                    <outputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[STG_RowNum]"
+                      dataType="i8"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[STG_RowNum]"
+                      name="STG_RowNum" />
+                    <outputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[STG_BatchID]"
+                      dataType="guid"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[STG_BatchID]"
+                      name="STG_BatchID" />
+                    <outputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[STG_LoadDate]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[STG_LoadDate]"
+                      name="STG_LoadDate" />
+                    <outputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[STG_OperationType]"
+                      codePage="1252"
+                      dataType="str"
+                      length="7"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[STG_OperationType]"
+                      name="STG_OperationType" />
+                    <outputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[STG_ProcessingStatus]"
+                      codePage="1252"
+                      dataType="str"
+                      length="7"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[STG_ProcessingStatus]"
+                      name="STG_ProcessingStatus" />
+                    <outputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Patient_profile Transformation.Paths[Derived Column Output]"
+              endId="Package\Patient_profile Transformation\OLE DB Destination.Inputs[OLE DB Destination Input]"
+              name="Derived Column Output"
+              startId="Package\Patient_profile Transformation\Adding Category Columns.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Patient_profile Transformation.Paths[OLE DB Source Output]"
+              endId="Package\Patient_profile Transformation\Adding Category Columns.Inputs[Derived Column Input]"
+              name="OLE DB Source Output"
+              startId="Package\Patient_profile Transformation\OLE DB Source.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Pregnancy_hist Transformation"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{5b618472-d4be-49fa-bdb3-ef91e2042f41}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Pregnancy_hist Transformation"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Pregnancy_hist Transformation\Adding Category Columns"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Adding Category Columns"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Pregnancy_hist Transformation\Adding Category Columns.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Pregnancy_hist Transformation\Adding Category Columns.Inputs[Derived Column Input].Columns[STG_OperationType]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="7"
+                      cachedName="STG_OperationType"
+                      lineageId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[STG_OperationType]" />
+                    <inputColumn
+                      refId="Package\Pregnancy_hist Transformation\Adding Category Columns.Inputs[Derived Column Input].Columns[Bronze_Operation]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="1"
+                      cachedName="Bronze_Operation"
+                      lineageId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[Bronze_Operation]" />
+                    <inputColumn
+                      refId="Package\Pregnancy_hist Transformation\Adding Category Columns.Inputs[Derived Column Input].Columns[current_week]"
+                      cachedDataType="i4"
+                      cachedName="current_week"
+                      lineageId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[current_week]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Pregnancy_hist Transformation\Adding Category Columns.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\Pregnancy_hist Transformation\Adding Category Columns.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\Adding Category Columns.Outputs[Derived Column Output].Columns[Silver_ValidFrom]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Pregnancy_hist Transformation\Adding Category Columns.Outputs[Derived Column Output].Columns[Silver_ValidFrom]"
+                      name="Silver_ValidFrom"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">[GETDATE]()</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">GETDATE()</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\Adding Category Columns.Outputs[Derived Column Output].Columns[Silver_ValidTo]"
+                      dataType="dbTime"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Pregnancy_hist Transformation\Adding Category Columns.Outputs[Derived Column Output].Columns[Silver_ValidTo]"
+                      name="Silver_ValidTo"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">NULL(DT_DBTIME)</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">NULL(DT_DBTIME)</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\Adding Category Columns.Outputs[Derived Column Output].Columns[Silver_IsCurrent]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Pregnancy_hist Transformation\Adding Category Columns.Outputs[Derived Column Output].Columns[Silver_IsCurrent]"
+                      name="Silver_IsCurrent"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(#{Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[STG_OperationType]} == "U" || #{Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[STG_OperationType]} == "I") ? 1 : 0</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(STG_OperationType == "U" || STG_OperationType == "I") ? 1 : 0</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\Adding Category Columns.Outputs[Derived Column Output].Columns[InsertionDate]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Pregnancy_hist Transformation\Adding Category Columns.Outputs[Derived Column Output].Columns[InsertionDate]"
+                      name="InsertionDate"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">#{Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[Bronze_Operation]} == "I" ? [GETDATE]() : NULL(DT_DBTIMESTAMP)</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">Bronze_Operation == "I" ? GETDATE() : NULL(DT_DBTIMESTAMP)</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\Adding Category Columns.Outputs[Derived Column Output].Columns[Trimester]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      length="2"
+                      lineageId="Package\Pregnancy_hist Transformation\Adding Category Columns.Outputs[Derived Column Output].Columns[Trimester]"
+                      name="Trimester"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_I4)#{Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[current_week]} &lt;= 13 ? "T1" : (DT_I4)#{Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[current_week]} &lt;= 27 ? "T2" : "T3"</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_I4)current_week &lt;= 13 ? "T1" : (DT_I4)current_week &lt;= 27 ? "T2" : "T3"</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\Adding Category Columns.Outputs[Derived Column Output].Columns[UpdateDate]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\Pregnancy_hist Transformation\Adding Category Columns.Outputs[Derived Column Output].Columns[UpdateDate]"
+                      name="UpdateDate"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">#{Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[Bronze_Operation]} == "U" ? [GETDATE]() : NULL(DT_DBTIMESTAMP)</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">Bronze_Operation == "U" ? GETDATE() : NULL(DT_DBTIMESTAMP)</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Pregnancy_hist Transformation\Adding Category Columns.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\Pregnancy_hist Transformation\Adding Category Columns.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\Adding Category Columns.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Pregnancy_hist Transformation\Adding Category Columns.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\Adding Category Columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Pregnancy_hist Transformation\Adding Category Columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Pregnancy_hist Transformation\OLE DB Destination"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE DB Destination"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[Silver].[Pregnancy_hist]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">true</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Pregnancy_hist Transformation\OLE DB Destination.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[LocalHost.Se7tekDWH]"
+                  connectionManagerRefId="Package.ConnectionManagers[LocalHost.Se7tekDWH]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Pregnancy_hist Transformation\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[pregnancy_id]"
+                      cachedDataType="i4"
+                      cachedName="pregnancy_id"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[pregnancy_id]"
+                      lineageId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[pregnancy_id]" />
+                    <inputColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[patient_id]"
+                      cachedDataType="i4"
+                      cachedName="patient_id"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[patient_id]"
+                      lineageId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[patient_id]" />
+                    <inputColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[start_date]"
+                      cachedDataType="dbDate"
+                      cachedName="start_date"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[start_date]"
+                      lineageId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[start_date]" />
+                    <inputColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[expected_due_date]"
+                      cachedDataType="dbDate"
+                      cachedName="expected_due_date"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[expected_due_date]"
+                      lineageId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[expected_due_date]" />
+                    <inputColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[actual_delivery_date]"
+                      cachedDataType="dbDate"
+                      cachedName="actual_delivery_date"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[actual_delivery_date]"
+                      lineageId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[actual_delivery_date]" />
+                    <inputColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[current_week]"
+                      cachedDataType="i4"
+                      cachedName="current_week"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[current_week]"
+                      lineageId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[current_week]" />
+                    <inputColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[pregnancy_status]"
+                      cachedDataType="wstr"
+                      cachedLength="30"
+                      cachedName="pregnancy_status"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[pregnancy_status]"
+                      lineageId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[pregnancy_status]" />
+                    <inputColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[abortion_date]"
+                      cachedDataType="dbDate"
+                      cachedName="abortion_date"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[abortion_date]"
+                      lineageId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[abortion_date]" />
+                    <inputColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[notes]"
+                      cachedDataType="nText"
+                      cachedName="notes"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[notes]"
+                      lineageId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[notes]" />
+                    <inputColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[created_at]"
+                      cachedDataType="dbTimeStamp2"
+                      cachedName="created_at"
+                      cachedScale="7"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[created_at]"
+                      lineageId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[created_at]" />
+                    <inputColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[is_high_risk]"
+                      cachedDataType="bool"
+                      cachedName="is_high_risk"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[is_high_risk]"
+                      lineageId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[is_high_risk]" />
+                    <inputColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[risk_factors]"
+                      cachedDataType="wstr"
+                      cachedLength="200"
+                      cachedName="risk_factors"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[risk_factors]"
+                      lineageId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[risk_factors]" />
+                    <inputColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Silver_ValidFrom]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="Silver_ValidFrom"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Silver_ValidFrom]"
+                      lineageId="Package\Pregnancy_hist Transformation\Adding Category Columns.Outputs[Derived Column Output].Columns[Silver_ValidFrom]" />
+                    <inputColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Silver_ValidTo]"
+                      cachedDataType="dbTime"
+                      cachedName="Silver_ValidTo"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Silver_ValidTo]"
+                      lineageId="Package\Pregnancy_hist Transformation\Adding Category Columns.Outputs[Derived Column Output].Columns[Silver_ValidTo]" />
+                    <inputColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Silver_IsCurrent]"
+                      cachedDataType="i4"
+                      cachedName="Silver_IsCurrent"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Silver_IsCurrent]"
+                      lineageId="Package\Pregnancy_hist Transformation\Adding Category Columns.Outputs[Derived Column Output].Columns[Silver_IsCurrent]" />
+                    <inputColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[STG_BatchID]"
+                      cachedDataType="guid"
+                      cachedName="STG_BatchID"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Silver_ETL_BatchID]"
+                      lineageId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[STG_BatchID]" />
+                    <inputColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[InsertionDate]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="InsertionDate"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Silver_InsertDate]"
+                      lineageId="Package\Pregnancy_hist Transformation\Adding Category Columns.Outputs[Derived Column Output].Columns[InsertionDate]" />
+                    <inputColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[UpdateDate]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="UpdateDate"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Silver_UpdateDate]"
+                      lineageId="Package\Pregnancy_hist Transformation\Adding Category Columns.Outputs[Derived Column Output].Columns[UpdateDate]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[pregnancy_id]"
+                      dataType="i4"
+                      name="pregnancy_id" />
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[patient_id]"
+                      dataType="i4"
+                      name="patient_id" />
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[start_date]"
+                      dataType="dbDate"
+                      name="start_date" />
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[expected_due_date]"
+                      dataType="dbDate"
+                      name="expected_due_date" />
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[actual_delivery_date]"
+                      dataType="dbDate"
+                      name="actual_delivery_date" />
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[current_week]"
+                      dataType="i4"
+                      name="current_week" />
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[pregnancy_status]"
+                      dataType="wstr"
+                      length="30"
+                      name="pregnancy_status" />
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[abortion_date]"
+                      dataType="dbDate"
+                      name="abortion_date" />
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[notes]"
+                      dataType="nText"
+                      name="notes" />
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[created_at]"
+                      dataType="dbTimeStamp2"
+                      name="created_at"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[is_high_risk]"
+                      dataType="bool"
+                      name="is_high_risk" />
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[risk_factors]"
+                      dataType="wstr"
+                      length="200"
+                      name="risk_factors" />
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Silver_ValidFrom]"
+                      dataType="dbTimeStamp2"
+                      name="Silver_ValidFrom"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Silver_ValidTo]"
+                      dataType="dbTimeStamp2"
+                      name="Silver_ValidTo"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Silver_IsCurrent]"
+                      dataType="bool"
+                      name="Silver_IsCurrent" />
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Silver_ETL_BatchID]"
+                      dataType="guid"
+                      name="Silver_ETL_BatchID" />
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Silver_InsertDate]"
+                      dataType="dbTimeStamp2"
+                      name="Silver_InsertDate"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Silver_UpdateDate]"
+                      dataType="dbTimeStamp2"
+                      name="Silver_UpdateDate"
+                      scale="7" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Pregnancy_hist Transformation\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Pregnancy_hist Transformation\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Pregnancy_hist Transformation\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Pregnancy_hist Transformation\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Pregnancy_hist Transformation\OLE DB Source"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="OLE DB Source"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[STG].[Pregnancy_hist]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Pregnancy_hist Transformation\OLE DB Source.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[LocalHost.Se7tekDWH]"
+                  connectionManagerRefId="Package.ConnectionManagers[LocalHost.Se7tekDWH]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[pregnancy_id]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[pregnancy_id]"
+                      lineageId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[pregnancy_id]"
+                      name="pregnancy_id"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[patient_id]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[patient_id]"
+                      lineageId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[patient_id]"
+                      name="patient_id"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[start_date]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[start_date]"
+                      lineageId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[start_date]"
+                      name="start_date"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[expected_due_date]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[expected_due_date]"
+                      lineageId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[expected_due_date]"
+                      name="expected_due_date"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[actual_delivery_date]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[actual_delivery_date]"
+                      lineageId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[actual_delivery_date]"
+                      name="actual_delivery_date"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[current_week]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[current_week]"
+                      lineageId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[current_week]"
+                      name="current_week"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[pregnancy_status]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[pregnancy_status]"
+                      length="30"
+                      lineageId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[pregnancy_status]"
+                      name="pregnancy_status"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[abortion_date]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[abortion_date]"
+                      lineageId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[abortion_date]"
+                      name="abortion_date"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[notes]"
+                      dataType="nText"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[notes]"
+                      lineageId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[notes]"
+                      name="notes"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[created_at]"
+                      dataType="dbTimeStamp2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[created_at]"
+                      lineageId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[created_at]"
+                      name="created_at"
+                      scale="7"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[is_high_risk]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[is_high_risk]"
+                      lineageId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[is_high_risk]"
+                      name="is_high_risk"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[risk_factors]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[risk_factors]"
+                      length="200"
+                      lineageId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[risk_factors]"
+                      name="risk_factors"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[Bronze_LoadID]"
+                      dataType="i8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Bronze_LoadID]"
+                      lineageId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[Bronze_LoadID]"
+                      name="Bronze_LoadID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[Bronze_LoadDate]"
+                      dataType="dbTimeStamp2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Bronze_LoadDate]"
+                      lineageId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[Bronze_LoadDate]"
+                      name="Bronze_LoadDate"
+                      scale="7"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[Bronze_SourceVersion]"
+                      dataType="i8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Bronze_SourceVersion]"
+                      lineageId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[Bronze_SourceVersion]"
+                      name="Bronze_SourceVersion"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[Bronze_Operation]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Bronze_Operation]"
+                      length="1"
+                      lineageId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[Bronze_Operation]"
+                      name="Bronze_Operation"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[Bronze_ETL_BatchID]"
+                      dataType="guid"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Bronze_ETL_BatchID]"
+                      lineageId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[Bronze_ETL_BatchID]"
+                      name="Bronze_ETL_BatchID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[STG_RowNum]"
+                      dataType="i8"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[STG_RowNum]"
+                      lineageId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[STG_RowNum]"
+                      name="STG_RowNum"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[STG_BatchID]"
+                      dataType="guid"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[STG_BatchID]"
+                      lineageId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[STG_BatchID]"
+                      name="STG_BatchID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[STG_LoadDate]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[STG_LoadDate]"
+                      lineageId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[STG_LoadDate]"
+                      name="STG_LoadDate"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[STG_OperationType]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[STG_OperationType]"
+                      length="7"
+                      lineageId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[STG_OperationType]"
+                      name="STG_OperationType"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[STG_ProcessingStatus]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[STG_ProcessingStatus]"
+                      length="7"
+                      lineageId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].Columns[STG_ProcessingStatus]"
+                      name="STG_ProcessingStatus"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[pregnancy_id]"
+                      dataType="i4"
+                      name="pregnancy_id" />
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[patient_id]"
+                      dataType="i4"
+                      name="patient_id" />
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[start_date]"
+                      dataType="dbDate"
+                      name="start_date" />
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[expected_due_date]"
+                      dataType="dbDate"
+                      name="expected_due_date" />
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[actual_delivery_date]"
+                      dataType="dbDate"
+                      name="actual_delivery_date" />
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[current_week]"
+                      dataType="i4"
+                      name="current_week" />
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[pregnancy_status]"
+                      dataType="wstr"
+                      length="30"
+                      name="pregnancy_status" />
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[abortion_date]"
+                      dataType="dbDate"
+                      name="abortion_date" />
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[notes]"
+                      dataType="nText"
+                      name="notes" />
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[created_at]"
+                      dataType="dbTimeStamp2"
+                      name="created_at"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[is_high_risk]"
+                      dataType="bool"
+                      name="is_high_risk" />
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[risk_factors]"
+                      dataType="wstr"
+                      length="200"
+                      name="risk_factors" />
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Bronze_LoadID]"
+                      dataType="i8"
+                      name="Bronze_LoadID" />
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Bronze_LoadDate]"
+                      dataType="dbTimeStamp2"
+                      name="Bronze_LoadDate"
+                      scale="7" />
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Bronze_SourceVersion]"
+                      dataType="i8"
+                      name="Bronze_SourceVersion" />
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Bronze_Operation]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      name="Bronze_Operation" />
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Bronze_ETL_BatchID]"
+                      dataType="guid"
+                      name="Bronze_ETL_BatchID" />
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[STG_RowNum]"
+                      dataType="i8"
+                      name="STG_RowNum" />
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[STG_BatchID]"
+                      dataType="guid"
+                      name="STG_BatchID" />
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[STG_LoadDate]"
+                      dataType="dbTimeStamp"
+                      name="STG_LoadDate" />
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[STG_OperationType]"
+                      codePage="1252"
+                      dataType="str"
+                      length="7"
+                      name="STG_OperationType" />
+                    <externalMetadataColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[STG_ProcessingStatus]"
+                      codePage="1252"
+                      dataType="str"
+                      length="7"
+                      name="STG_ProcessingStatus" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[pregnancy_id]"
+                      dataType="i4"
+                      lineageId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[pregnancy_id]"
+                      name="pregnancy_id" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[patient_id]"
+                      dataType="i4"
+                      lineageId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[patient_id]"
+                      name="patient_id" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[start_date]"
+                      dataType="dbDate"
+                      lineageId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[start_date]"
+                      name="start_date" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[expected_due_date]"
+                      dataType="dbDate"
+                      lineageId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[expected_due_date]"
+                      name="expected_due_date" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[actual_delivery_date]"
+                      dataType="dbDate"
+                      lineageId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[actual_delivery_date]"
+                      name="actual_delivery_date" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[current_week]"
+                      dataType="i4"
+                      lineageId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[current_week]"
+                      name="current_week" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[pregnancy_status]"
+                      dataType="wstr"
+                      length="30"
+                      lineageId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[pregnancy_status]"
+                      name="pregnancy_status" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[abortion_date]"
+                      dataType="dbDate"
+                      lineageId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[abortion_date]"
+                      name="abortion_date" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[notes]"
+                      dataType="nText"
+                      lineageId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[notes]"
+                      name="notes" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[created_at]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[created_at]"
+                      name="created_at"
+                      scale="7" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[is_high_risk]"
+                      dataType="bool"
+                      lineageId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[is_high_risk]"
+                      name="is_high_risk" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[risk_factors]"
+                      dataType="wstr"
+                      length="200"
+                      lineageId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[risk_factors]"
+                      name="risk_factors" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Bronze_LoadID]"
+                      dataType="i8"
+                      lineageId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Bronze_LoadID]"
+                      name="Bronze_LoadID" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Bronze_LoadDate]"
+                      dataType="dbTimeStamp2"
+                      lineageId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Bronze_LoadDate]"
+                      name="Bronze_LoadDate"
+                      scale="7" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Bronze_SourceVersion]"
+                      dataType="i8"
+                      lineageId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Bronze_SourceVersion]"
+                      name="Bronze_SourceVersion" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Bronze_Operation]"
+                      codePage="1252"
+                      dataType="str"
+                      length="1"
+                      lineageId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Bronze_Operation]"
+                      name="Bronze_Operation" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Bronze_ETL_BatchID]"
+                      dataType="guid"
+                      lineageId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Bronze_ETL_BatchID]"
+                      name="Bronze_ETL_BatchID" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[STG_RowNum]"
+                      dataType="i8"
+                      lineageId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[STG_RowNum]"
+                      name="STG_RowNum" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[STG_BatchID]"
+                      dataType="guid"
+                      lineageId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[STG_BatchID]"
+                      name="STG_BatchID" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[STG_LoadDate]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[STG_LoadDate]"
+                      name="STG_LoadDate" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[STG_OperationType]"
+                      codePage="1252"
+                      dataType="str"
+                      length="7"
+                      lineageId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[STG_OperationType]"
+                      name="STG_OperationType" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[STG_ProcessingStatus]"
+                      codePage="1252"
+                      dataType="str"
+                      length="7"
+                      lineageId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[STG_ProcessingStatus]"
+                      name="STG_ProcessingStatus" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Pregnancy_hist Transformation.Paths[Derived Column Output]"
+              endId="Package\Pregnancy_hist Transformation\OLE DB Destination.Inputs[OLE DB Destination Input]"
+              name="Derived Column Output"
+              startId="Package\Pregnancy_hist Transformation\Adding Category Columns.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\Pregnancy_hist Transformation.Paths[OLE DB Source Output]"
+              endId="Package\Pregnancy_hist Transformation\Adding Category Columns.Inputs[Derived Column Input]"
+              name="OLE DB Source Output"
+              startId="Package\Pregnancy_hist Transformation\OLE DB Source.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Return Tables names"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{3EF1EDA1-96CD-4D98-9384-5DFD8919EA87}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Return Tables names"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2025; © 2025 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{F3760586-6B03-4B5C-A805-1D4DEA5CFE0C}"
+          SQLTask:SqlStatementSource="&#xA;SELECT DISTINCT name&#xA;FROM     sys.tables&#xA;WHERE  (name NOT IN ('LastModified', 'LastLoad', 'PipelineAuditLog','TableControl','tables_pk'))"
+          SQLTask:ResultType="ResultSetType_Rowset" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="0"
+            SQLTask:DtsVariableName="User::TableNames" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{02596D46-3DA5-44DE-A44B-092D7DAC8E35}"
+      DTS:From="Package\Return Tables names"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Foreach Loop Container" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{7D7957A3-1D2C-4F1E-A450-94DDC6EA11EB}"
+      DTS:From="Package\Foreach Loop Container"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Patient_profile Transformation" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{01011EE0-12FB-4FBE-B577-3EAD845B4B79}"
+      DTS:From="Package\Foreach Loop Container"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Pregnancy_hist Transformation" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="162.4,41.6"
+          Id="Package\Foreach Loop Container\Execute SQL Task"
+          TopLeft="111.126530881161,153.414005430135" />
+        <NodeLayout
+          Size="172,41.6"
+          Id="Package\Foreach Loop Container\Execute SQL Task 1"
+          TopLeft="44.7183684026189,1.08235280328734" />
+        <NodeLayout
+          Size="162.4,41.6"
+          Id="Package\Foreach Loop Container\Loading Other Tables 1"
+          TopLeft="113.26938802858,74.1277309895947" />
+        <EdgeLayout
+          Id="Package\Foreach Loop Container.PrecedenceConstraints[Constraint]"
+          TopLeft="193.39795945487,115.727730989595">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,37.6862744405401"
+              Start="0,0"
+              End="0,30.1862744405401">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,30.1862744405401" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-8,7.09313722027007,16,16"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Foreach Loop Container.PrecedenceConstraints[Constraint 1]"
+          TopLeft="130.718368402619,42.6823528032873">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="63.751019625961,31.4453781863074"
+              Start="0,0"
+              End="63.751019625961,23.9453781863074">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,11.7226890931537" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,11.7226890931537"
+                    Point2="0,15.7226890931537"
+                    Point3="4,15.7226890931537" />
+                  <mssgle:LineSegment
+                    End="59.751019625961,15.7226890931537" />
+                  <mssgle:CubicBezierSegment
+                    Point1="59.751019625961,15.7226890931537"
+                    Point2="63.751019625961,15.7226890931537"
+                    Point3="63.751019625961,19.7226890931537" />
+                  <mssgle:LineSegment
+                    End="63.751019625961,23.9453781863074" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="383.2,250.4"
+          Size="383.2,293.6"
+          Id="Package\Foreach Loop Container"
+          TopLeft="450.857142469408,157.99999988605" />
+        <NodeLayout
+          Size="221.6,41.6"
+          Id="Package\Patient_profile Transformation"
+          TopLeft="216.265306736089,447.731092240865" />
+        <NodeLayout
+          Size="224.8,41.6"
+          Id="Package\Pregnancy_hist Transformation"
+          TopLeft="795.828573177176,469.364705756337" />
+        <NodeLayout
+          Size="178.4,41.6"
+          Id="Package\Return Tables names"
+          TopLeft="585.714286961116,68.5294117291804" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="674.914286961116,110.12941172918">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-32.4571444917082,47.8705881568697"
+              Start="0,0"
+              End="-32.4571444917082,40.3705881568697">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,19.9352940784348" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,19.9352940784348"
+                    Point2="0,23.9352940784348"
+                    Point3="-4,23.9352940784348" />
+                  <mssgle:LineSegment
+                    End="-28.4571444917082,23.9352940784348" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-28.4571444917082,23.9352940784348"
+                    Point2="-32.4571444917082,23.9352940784348"
+                    Point3="-32.4571444917082,27.9352940784348" />
+                  <mssgle:LineSegment
+                    End="-32.4571444917082,40.3705881568697" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="450.857142469408,304.79999988605">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-123.79183573332,142.931092354815"
+              Start="0,0"
+              End="-123.79183573332,135.431092354815">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="-119.79183573332,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-119.79183573332,0"
+                    Point2="-123.79183573332,0"
+                    Point3="-123.79183573332,4" />
+                  <mssgle:LineSegment
+                    End="-123.79183573332,135.431092354815" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="834.057142469408,304.79999988605">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="74.1714307077679,164.564705870287"
+              Start="0,0"
+              End="74.1714307077679,157.064705870287">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="70.1714307077679,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="70.1714307077679,0"
+                    Point2="74.1714307077679,0"
+                    Point3="74.1714307077679,4" />
+                  <mssgle:LineSegment
+                    End="74.1714307077679,157.064705870287" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Patient_profile Transformation">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="149.6,41.6"
+          Id="Package\Patient_profile Transformation\OLE DB Source"
+          TopLeft="483.999992787838,15.9999997615814" />
+        <NodeLayout
+          Size="170.4,41.6"
+          Id="Package\Patient_profile Transformation\OLE DB Destination"
+          TopLeft="154.99999769032,182.399997317791" />
+        <NodeLayout
+          Size="200,41.6"
+          Id="Package\Patient_profile Transformation\Adding Category Columns"
+          TopLeft="488.999992713332,213.999996811152" />
+        <EdgeLayout
+          Id="Package\Patient_profile Transformation.Paths[Derived Column Output]"
+          TopLeft="488.999992713332,234.799996811152">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-163.599995023012,-31.599999493361"
+              Start="0,0"
+              End="-156.099995023012,-31.599999493361">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="-77.799997511506,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-77.799997511506,0"
+                    Point2="-81.799997511506,0"
+                    Point3="-81.799997511506,-4" />
+                  <mssgle:LineSegment
+                    End="-81.799997511506,-27.599999493361" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-81.799997511506,-27.599999493361"
+                    Point2="-81.799997511506,-31.599999493361"
+                    Point3="-85.799997511506,-31.599999493361" />
+                  <mssgle:LineSegment
+                    End="-156.099995023012,-31.599999493361" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-89.799997511506,1,16,16"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Patient_profile Transformation.Paths[OLE DB Source Output]"
+          TopLeft="558.799992787838,57.5999997615814">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="30.1999999254938,156.399997049571"
+              Start="0,0"
+              End="30.1999999254938,148.899997049571">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,74.1999985247853" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,74.1999985247853"
+                    Point2="0,78.1999985247853"
+                    Point3="4,78.1999985247853" />
+                  <mssgle:LineSegment
+                    End="26.1999999254938,78.1999985247853" />
+                  <mssgle:CubicBezierSegment
+                    Point1="26.1999999254938,78.1999985247853"
+                    Point2="30.1999999254938,78.1999985247853"
+                    Point3="30.1999999254938,82.1999985247853" />
+                  <mssgle:LineSegment
+                    End="30.1999999254938,148.899997049571" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Patient_profile Transformation\OLE DB Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Patient_profile Transformation\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Pregnancy_hist Transformation">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="200,41.6"
+          Id="Package\Pregnancy_hist Transformation\Adding Category Columns"
+          TopLeft="350.999994769693,110.59999986589" />
+        <NodeLayout
+          Size="170.4,41.6"
+          Id="Package\Pregnancy_hist Transformation\OLE DB Destination"
+          TopLeft="400.999994024634,195.999997079372" />
+        <NodeLayout
+          Size="149.6,41.6"
+          Id="Package\Pregnancy_hist Transformation\OLE DB Source"
+          TopLeft="366.999994531274,11.5999997913837" />
+        <EdgeLayout
+          Id="Package\Pregnancy_hist Transformation.Paths[OLE DB Source Output]"
+          TopLeft="441.799994531274,53.1999997913837">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="9.20000023841897,57.4000000745063"
+              Start="0,0"
+              End="9.20000023841897,49.9000000745063">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,24.7000000372532" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,24.7000000372532"
+                    Point2="0,28.7000000372532"
+                    Point3="4,28.7000000372532" />
+                  <mssgle:LineSegment
+                    End="5.20000023841897,28.7000000372532" />
+                  <mssgle:CubicBezierSegment
+                    Point1="5.20000023841897,28.7000000372532"
+                    Point2="9.20000023841897,28.7000000372532"
+                    Point3="9.20000023841897,32.7000000372532" />
+                  <mssgle:LineSegment
+                    End="9.20000023841897,49.9000000745063" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Pregnancy_hist Transformation.Paths[Derived Column Output]"
+          TopLeft="450.999994769693,152.19999986589">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="35.1999992549419,43.7999972134829"
+              Start="0,0"
+              End="35.1999992549419,36.2999972134829">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,17.8999986067415" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,17.8999986067415"
+                    Point2="0,21.8999986067415"
+                    Point3="4,21.8999986067415" />
+                  <mssgle:LineSegment
+                    End="31.1999992549419,21.8999986067415" />
+                  <mssgle:CubicBezierSegment
+                    Point1="31.1999992549419,21.8999986067415"
+                    Point2="35.1999992549419,21.8999986067415"
+                    Point3="35.1999992549419,25.8999986067415" />
+                  <mssgle:LineSegment
+                    End="35.1999992549419,36.2999972134829" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Pregnancy_hist Transformation\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Pregnancy_hist Transformation\OLE DB Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
