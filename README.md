@@ -1,15 +1,18 @@
-````markdown
 # 🩺 Se7tek Pregnancy Monitoring Platform
 
-![Python](https://img.shields.io/badge/Python-3.11-3776AB?logo=python&logoColor=white)
-![SQL Server](https://img.shields.io/badge/SQL_Server-CC2927?logo=microsoftsqlserver&logoColor=white)
-![Azure](https://img.shields.io/badge/Azure-0078D4?logo=microsoftazure&logoColor=white)
-![dbt](https://img.shields.io/badge/dbt-FF694B?logo=dbt&logoColor=white)
-![Airflow](https://img.shields.io/badge/Airflow-017CEE?logo=apacheairflow&logoColor=white)
-![Power BI](https://img.shields.io/badge/Power_BI-F2C811?logo=powerbi&logoColor=black)
-![Tableau](https://img.shields.io/badge/Tableau-E97627?logo=tableau&logoColor=white)
-![Fabric](https://img.shields.io/badge/Microsoft_Fabric-7B68EE)
+Enterprise Healthcare Data Platform + BI + AI Knowledge System for Pregnancy Care
+
+![Python](https://img.shields.io/badge/Python-3.11-blue)
+![SQL Server](https://img.shields.io/badge/SQL_Server-red)
+![Azure](https://img.shields.io/badge/Azure-Cloud-blue)
+![dbt](https://img.shields.io/badge/dbt-orange)
+![Airflow](https://img.shields.io/badge/Airflow-teal)
+![Power BI](https://img.shields.io/badge/Power_BI-yellow)
+![Tableau](https://img.shields.io/badge/Tableau-blue)
+![Microsoft Fabric](https://img.shields.io/badge/Fabric-purple)
 ![RAG](https://img.shields.io/badge/AI-RAG-purple)
+
+---
 
 # 📌 Overview
 
@@ -61,8 +64,6 @@ The platform helps healthcare organizations improve maternal care through advanc
 - Star schema design
 - Pipeline orchestration
 
----
-
 ## Business Intelligence
 - Interactive dashboards
 - KPI monitoring
@@ -70,15 +71,11 @@ The platform helps healthcare organizations improve maternal care through advanc
 - Medication adherence tracking
 - Doctor performance analysis
 
----
-
 ## AI Knowledge System (RAG)
 - Context-aware medical Q&A
 - Evidence-based recommendations
 - Pregnancy-specific knowledge retrieval
 - LLM-powered responses
-
----
 
 ## Web Application
 Unified interface for:
@@ -98,15 +95,17 @@ The platform supports two deployment models.
 
 # 1️⃣ On-Premises Architecture
 
-### Stack
-- Microsoft SQL Server
-- SSIS
-- SQL Stored Procedures
-- SQL Server DW
-- Tableau
-- Power BI
+## Technology Stack
 
-<img src="docs/architecture/on-prem-architecture.png" width="100%"/>
+| Layer | Technology |
+|-------|------------|
+| Source | SQL Server |
+| Ingestion | SSIS |
+| Transformation | SQL Stored Procedures |
+| Warehouse | SQL Server DW |
+| BI | Tableau, Power BI |
+
+![On-Prem Architecture](docs/architecture/on-prem-architecture.png)
 
 ---
 
@@ -142,16 +141,18 @@ Dashboards in:
 
 # 2️⃣ Cloud Architecture
 
-### Stack
-- Azure SQL Database
-- Azure Data Factory
-- dbt
-- Microsoft Fabric
-- Apache Airflow
-- Tableau
-- Power BI
+## Technology Stack
 
-<img src="docs/architecture/cloud-architecture.png" width="100%"/>
+| Layer | Technology |
+|-------|------------|
+| Source | Azure SQL Database |
+| Ingestion | Azure Data Factory |
+| Transformation | dbt |
+| Warehouse | Microsoft Fabric |
+| Orchestration | Apache Airflow |
+| BI | Tableau, Power BI |
+
+![Cloud Architecture](docs/architecture/cloud-architecture.png)
 
 ---
 
@@ -187,13 +188,14 @@ Using:
 ### Orchestration
 Using **Apache Airflow**
 
-```bash
-ADF Ingestion
-    ↓
-dbt Compile & Run
-    ↓
-Refresh Fabric Models
-````
+| Step | Process |
+|------|---------|
+| 1 | Trigger ADF Ingestion |
+| 2 | Trigger dbt Compile & Run |
+| 3 | Refresh Fabric Models |
+| 4 | Update Power BI / Tableau Dashboards |
+
+---
 
 ---
 
