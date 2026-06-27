@@ -1,6 +1,12 @@
-# 🩺 Se7tek Pregnancy Monitoring Platform
+<p align="center">
+  <img src="docs/assets/se7tek-logo.png" width="320"/>
+</p>
 
-Enterprise Healthcare Data Platform + BI + AI Knowledge System for Pregnancy Care
+<h1 align="center">🩺 Se7tek Pregnancy Monitoring Platform</h1>
+
+<p align="center">
+Enterprise Healthcare Analytics Platform + AI Knowledge System for Pregnancy Care
+</p>
 
 ![Python](https://img.shields.io/badge/Python-3.11-blue)
 ![SQL Server](https://img.shields.io/badge/SQL_Server-red)
@@ -11,6 +17,8 @@ Enterprise Healthcare Data Platform + BI + AI Knowledge System for Pregnancy Car
 ![Tableau](https://img.shields.io/badge/Tableau-blue)
 ![Microsoft Fabric](https://img.shields.io/badge/Fabric-purple)
 ![RAG](https://img.shields.io/badge/AI-RAG-purple)
+![LLM](https://img.shields.io/badge/LLM-Medical-blue)
+![VectorDB](https://img.shields.io/badge/Vector_DB-Enabled-green)
 
 ---
 
@@ -116,6 +124,10 @@ The platform supports two deployment models.
 
 ## Pipeline Flow
 
+```bash
+SQL Server → SSIS → STG → ODS → DW → BI Dashboards
+```
+
 ### Source
 Operational databases generating raw healthcare data:
 - Patient profiles
@@ -162,6 +174,10 @@ Dashboards in:
 ---
 
 ## Pipeline Flow
+
+```bash
+Azure SQL → ADF → dbt → Fabric → BI
+```
 
 ### Source
 Azure transactional database.
@@ -237,8 +253,21 @@ LLM Context Injection
 Response Generation
 ```
 
----
+```bash
+Documents → Chunking → Embeddings → Vector DB → Retriever → LLM → Response
+```
 
+# 🔗 Related Repositories
+
+| Repository | Description |
+|------------|-------------|
+| Main Platform | Healthcare Data Platform + BI |
+| RAG System | AI Knowledge Retrieval System |
+
+- 🩺 Main Platform: Current Repository  
+- 🧠 RAG System: [Se7tek Knowledge System (RAG)](https://github.com/DiabSaeed/Se7tek_Knowlage_System-RAG)
+
+---
 ## Knowledge Sources
 
 * Pregnancy medical guidelines
@@ -246,6 +275,20 @@ Response Generation
 * Research papers
 * Drug references
 * Internal documentation
+
+---
+
+# 🗂️ Data Modeling
+
+## ERD Design
+
+<img src="docs/data-model/erd.png" width="100%"/>
+
+---
+
+## Data Warehouse Schema
+
+<img src="docs/data-model/star-schema.png" width="100%"/>
 
 ---
 
@@ -336,6 +379,92 @@ Tracks:
 <img src="docs/dashboards/pregnancy-monitoring.png" width="100%"/>
 
 ---
+# 📊 Tableau Dashboards Showcase
+
+Se7tek includes 20+ enterprise dashboards across healthcare operations.
+
+---
+
+# Executive Dashboard
+
+<img src="docs/dashboards/executive-dashboard.png" width="100%"/>
+
+Provides:
+- Global KPIs
+- Risk trends
+- Operational performance
+- Clinical alerts
+
+---
+
+# Doctor Performance Dashboard
+
+<img src="docs/dashboards/doctor-performance.png" width="100%"/>
+
+Insights:
+- Doctor workload
+- Consultation time
+- Patient load
+- High-risk rates
+
+---
+
+# Pregnancy Monitoring Dashboard
+
+<img src="docs/dashboards/pregnancy-overview.png" width="100%"/>
+
+Tracks:
+- Active pregnancies
+- Adherence rate
+- Preterm risk
+- Regional distribution
+
+---
+
+# Risk Monitoring Dashboard
+
+<img src="docs/dashboards/risk-monitor.png" width="100%"/>
+
+Tracks:
+- High-risk patients
+- Medication adherence
+- Missed doses
+- Abnormal lab ratio
+
+---
+
+# Lab Analysis Dashboard
+
+<img src="docs/dashboards/lab-analysis.png" width="100%"/>
+
+Tracks:
+- Lab test trends
+- Abnormal distributions
+- Age & BMI analysis
+
+---
+# Patient Report
+
+<img src="docs/reports/patient-report.png" width="100%"/>
+
+Includes:
+- Clinical summary
+- Risk score
+- Adherence metrics
+- Latest lab results
+
+---
+
+# Monthly Clinical Report
+
+<img src="docs/reports/monthly-report.png" width="100%"/>
+
+Provides:
+- Pregnancy overview
+- Clinical performance
+- Risk factor distribution
+
+---
 
 # 🌐 Web Application
 
@@ -400,18 +529,12 @@ The web application serves as the unified analytics and AI interface.
 se7tek-pregnancy-monitoring/
 │
 ├── docs/
+│   ├── assets/
 │   ├── architecture/
-│   │   ├── on-prem-architecture.png
-│   │   └── cloud-architecture.png
-│   │
-│   └── dashboards/
-│       ├── executive-dashboard.png
-│       ├── patient-journey.png
-│       ├── risk-monitor.png
-│       ├── population-risk.png
-│       ├── medication-analytics.png
-│       ├── doctor-performance.png
-│       └── pregnancy-monitoring.png
+│   ├── dashboards/
+│   ├── reports/
+│   ├── automation/
+│   └── data-model/
 │
 ├── on-prem/
 ├── cloud/
@@ -446,6 +569,12 @@ This platform helps healthcare organizations:
 ---
 
 # 👨‍💻 Contributors
+
+Eng.Diab Saeed
+Eng.Omnia gharib
+Eng.Safa Ashraf
+Eng.Reem Tamer
+Eng.Ahmed Hamdtuo
 
 Built as a complete enterprise healthcare solution spanning:
 
