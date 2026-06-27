@@ -477,6 +477,18 @@ The web application serves as the unified analytics and AI interface.
 
 ---
 
+# AI Workflow Integration
+
+<img src="docs/automation/n8n-workflow.png" width="100%"/>
+
+---
+
+# Power Automate Integration
+
+<img src="docs/automation/power-automate.png" width="60%"/>
+
+---
+
 # 🛠️ Tech Stack
 
 ## Data Engineering
