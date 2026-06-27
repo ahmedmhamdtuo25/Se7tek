@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/assets/se7tek-logo.png" width="320"/>
+  <img src="docs/assets/Se7tek-logo.png" width="320"/>
 </p>
 
 <h1 align="center">🩺 Se7tek Pregnancy Monitoring Platform</h1>
@@ -385,21 +385,9 @@ Se7tek includes 20+ enterprise dashboards across healthcare operations.
 
 ---
 
-# Executive Dashboard
-
-<img src="docs/dashboards/executive-dashboard.png" width="100%"/>
-
-Provides:
-- Global KPIs
-- Risk trends
-- Operational performance
-- Clinical alerts
-
----
-
 # Doctor Performance Dashboard
 
-<img src="docs/dashboards/doctor-performance.png" width="100%"/>
+<img src="docs/tableau-dashboards/doctor-performance.png" width="100%"/>
 
 Insights:
 - Doctor workload
@@ -411,7 +399,7 @@ Insights:
 
 # Pregnancy Monitoring Dashboard
 
-<img src="docs/dashboards/pregnancy-overview.png" width="100%"/>
+<img src="docs/tableau-dashboards/pregnancy-overview.png" width="100%"/>
 
 Tracks:
 - Active pregnancies
@@ -423,7 +411,7 @@ Tracks:
 
 # Risk Monitoring Dashboard
 
-<img src="docs/dashboards/risk-monitor.png" width="100%"/>
+<img src="docs/tableau-dashboards/risk-monitor.png" width="100%"/>
 
 Tracks:
 - High-risk patients
@@ -435,7 +423,7 @@ Tracks:
 
 # Lab Analysis Dashboard
 
-<img src="docs/dashboards/lab-analysis.png" width="100%"/>
+<img src="docs/tableau-dashboards/lab-analysis.png" width="100%"/>
 
 Tracks:
 - Lab test trends
@@ -569,13 +557,13 @@ This platform helps healthcare organizations:
 ---
 
 # 👨‍💻 Contributors
-
+```bash
 Eng.Diab Saeed
 Eng.Omnia gharib
 Eng.Safa Ashraf
 Eng.Reem Tamer
 Eng.Ahmed Hamdtuo
-
+```
 Built as a complete enterprise healthcare solution spanning:
 
 * Data Engineering
