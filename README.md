@@ -565,6 +565,7 @@ This platform helps healthcare organizations:
 * Anomaly detection
 * Personalized recommendations
 * AI Copilot for clinicians
+* Automated alerts for high-risk clinical cases
 
 ---
 
